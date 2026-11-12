@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbería Fercho — Reserva de Citas y Cortes</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #fafafa; color: #121212; font-family: 'Inter', sans-serif; }
+        .navbar-fercho { background: #121212; border-bottom: 2px solid #c59d5f; padding: 14px 0; }
+        .brand-title { color: #c59d5f !important; font-weight: 700; font-size: 1.45rem; letter-spacing: -0.5px; text-decoration: none; }
+        .btn-gold { background: #c59d5f; color: #121212 !important; font-weight: 700; border-radius: 50px; border: none; transition: 0.2s; }
+        .btn-gold:hover { background: #d6ae6e; transform: translateY(-1px); }
+        .btn-dark-custom { background: #121212; color: #c59d5f; font-weight: 600; border-radius: 10px; border: 1px solid #121212; transition: 0.2s; }
+        .btn-dark-custom:hover { background: #c59d5f; color: #121212; border-color: #c59d5f; }
+        .card-corte { border: 1px solid #ececec; border-radius: 16px; background: #fff; transition: transform 0.2s, box-shadow 0.2s; }
+        .card-corte:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); }
+        
+        .hora-btn {
+            border: 1.5px solid #dcdcdc; background: #fff; color: #121212;
+            font-weight: 600; border-radius: 10px; padding: 10px 14px;
+            margin: 4px; cursor: pointer; transition: all 0.15s ease; min-width: 102px;
+        }
+        .hora-btn:hover:not(:disabled) { border-color: #121212; background: #f4f4f4; }
+        .hora-btn.activo { background: #121212; color: #c59d5f; border-color: #121212; transform: scale(1.03); }
+        .hora-btn:disabled { background: #f1f1f1; color: #aaa; border-color: #e5e5e5; text-decoration: line-through; cursor: not-allowed; }
+        
+        .caja-pago {
+            background: #121212; color: #fff; border-radius: 14px; padding: 20px; border: 1px solid #c59d5f;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-fercho">
+        <div class="container">
+            <a class="brand-title d-flex align-items-center" href="/es/">
+                <span style="font-size:1.6rem; margin-right:8px;">💈</span>
+                <div>
+                    Barbería Fercho
+                    <small class="d-block text-light" style="font-size:0.72rem; font-weight:400;">Cortes Clásicos, Modernos & Productos</small>
+                </div>
+            </a>
+
+            <div class="ml-auto d-flex align-items-center flex-wrap">
+                {% if user.is_staff %}
+                    <a href="/panel-barbero/" class="btn btn-outline-warning btn-sm mr-3" style="border-radius:50px; font-weight:600;">
+                        📋 Panel Barbero
+                    </a>
+                {% endif %}
+                <a href="/es/" class="text-white mr-4 font-weight-bold" style="text-decoration:none; font-size:0.95rem;">
+                    Agendar Cita & Cortes
+                </a>
+                <a href="/es/catalogue/" class="btn btn-gold px-4 py-2">
+                    🧴 Productos Barber
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 pb-3 border-bottom">
+            <div>
+                <span class="badge px-3 py-1 mb-2" style="background:#121212; color:#c59d5f; letter-spacing:1px;">
+                    LUN – SÁB · 10:00 AM A 10:00 PM (REFRIGERIO 1:00 PM – 2:00 PM)
+                </span>
+                <h1 class="mb-1" style="font-weight:700; letter-spacing:-0.8px;">Elige tu Corte y Reserva Cita</h1>
+                <p class="text-muted mb-0">Para garantizar tu turno de 1 hora, la reserva requiere el <strong>adelanto del 50%</strong> (15 min de tolerancia).</p>
+            </div>
+            <a href="/es/catalogue/" class="btn btn-outline-dark mt-3 mt-md-0" style="border-radius:50px; font-weight:600;">
+                Ir a Tienda de Productos →
+            </a>
+        </div>
+
+        {% if mensaje %}
+            <div class="alert alert-success border-0 shadow-sm mb-4" style="border-radius:12px;">
+                <strong>✅ ¡Reserva Confirmada!</strong> {{ mensaje }}
+            </div>
+        {% endif %}
+        {% if error %}
+            <div class="alert alert-danger border-0 shadow-sm mb-4" style="border-radius:12px;">
+                <strong>⚠️ Atención:</strong> {{ error }}
+            </div>
+        {% endif %}
+
+        <!-- Cuadrícula de Cortes -->
+        <div class="row mb-5">
+            {% for c in cortes %}
+            <div class="col-md-4 mb-4">
+                <div class="card card-corte h-100">
+                    <div class="card-body d-flex flex-column justify-content-between p-4">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span style="font-size:1.8rem;">✂️</span>
+                                <span class="badge px-3 py-2" style="font-size:0.82rem; font-weight:700; color:#121212; background:#f3efe6; border-radius:50px;">
+                                    Total: S/ {{ c.precio }}
+                                </span>
+                            </div>
+                            <h5 class="font-

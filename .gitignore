@@ -1,0 +1,8 @@
+﻿venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+staticfiles/
+citas_fercho.json

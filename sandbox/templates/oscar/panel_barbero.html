@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Barbero — Barbería Fercho</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #f4f5f7; color: #121212; font-family: 'Inter', sans-serif; }
+        .navbar-fercho { background: #121212; border-bottom: 2px solid #c59d5f; padding: 14px 0; }
+        .brand-title { color: #c59d5f !important; font-weight: 700; font-size: 1.35rem; text-decoration: none; }
+        .stat-card { border-radius: 14px; border: none; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-fercho">
+        <div class="container">
+            <a class="brand-title" href="/panel-barbero/">💈 Panel del Barbero — Fercho</a>
+            <div class="ml-auto">
+                <a href="#inventario" class="btn btn-sm mr-2" style="background:#c59d5f; color:#121212; font-weight:700; border-radius:50px;">🧴 Productos y Stock</a>
+                <a href="/es/" class="btn btn-outline-light btn-sm" style="border-radius:50px;">Ver Web Pública</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <!-- BLOQUE 1: CITAS -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="font-weight-bold mb-1">1. Agenda de Cortes Reservados</h2>
+                <p class="text-muted mb-0">Tolerancia máxima: <strong>15 minutos</strong>. Inicia el corte cuando llegue el cliente.</p>
+            </div>
+
+            <form method="get" class="form-inline mt-3 mt-md-0">
+                <input type="date" name="fecha" value="{{ fecha_filtro }}" class="form-control mr-2" style="border-radius:8px;">
+                <button type="submit" class="btn btn-dark mr-2" style="border-radius:8px;">Filtrar día</button>
+                {% if fecha_filtro %}
+                    <a href="/panel-barbero/" class="btn btn-outline-secondary" style="border-radius:8px;">Ver todos</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card stat-card p-4">
+                    <small class="text-uppercase text-muted font-weight-bold">Turnos Activos</small>
+                    <h2 class="font-weight-bold mb-0 mt-1">{{ total_citas }} citas</h2>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card stat-card p-4" style="border-left: 4px solid #28a745;">
+                    <small class="text-uppercase text-muted font-weight-bold">Adelantos Recibidos (50%)</small>
+                    <h2 class="font-weight-bold text-success mb-0 mt-1">S/ {{ total_adelantos }}</h2>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card stat-card p-4" style="border-left: 4px solid #c59d5f;">
+                    <small class="text-uppercase text-muted font-weight-bold">Por Cobrar en Barbería</small>
+                    <h2 class="font-weight-bold mb-0 mt-1" style="color:#a37d3e;">S/ {{ total_por_cobrar }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm mb-5" style="border-radius:16px; overflow:hidden;">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead style="background:#121212; color:#fff;">
+                        <tr>
+                            <th>Fecha y Hora</th>
+                            <th>Cliente / Celular</th>
+                            <th>Corte Solicitado</th>
+                            <th>Adelanto 50%</th>
+                            <th>Saldo en Silla</th>
+                            <th>Estado</th>
+                            <th class="text-right">Control del Barbero</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in citas %}
+                        <tr class="{% if c.estado == 'Libre (+15m Tolerancia)' %}table-light text-muted{% endif %}">
+                            <td>
+                                <strong>{{ c.fecha|date:"Y-m-d" }}</strong><br>
+                                <span class="badge badge-dark px-2 py-1">{{ c.hora }}</span>
+                            </td>
+                            <td>
+                                <strong>{{ c.nombre }}</strong><br>
+                                <small class="text-muted">📱 {{ c.telefono }}</small>
+                            </td>
+                            <td>{{ c.servicio }}</td>
+                            <td>
+                                <span class="text-success font-weight-bold">S/ {{ c.adelanto_pagado }}</span><br>
+                                <small class="badge badge-light border">{{ c.metodo_pago }} · #{{ c.codigo_operacion }}</small>
+                            </td>
+                            <td>
+                                {% if c.estado == 'Pagada' %}
+                                    <span class="badge badge-success">100% Pagada</span>
+                                {% else %}
+                                    <strong style="color:#a37d3e;">S/ {{ c.saldo_pendiente }}</strong>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if c.estado == '50% Pagado' %}
+                                    <span class="badge badge-warning px-2 py-1">50% Pagado</span>
+                                {% elif c.estado == 'En Corte' %}
+                                    <span class="badge badge-primary px-2 py-1">✂️ En Corte ({{ c.hora_inicio_real }})</span>
+                                {% elif c.estado == 'Pagada' %}
+                                    <span class="badge badge-success px-2 py-1">✓ Pagada</span>
+                                {% else %}
+                                    <span class="badge badge-secondary px-2 py-1">Libre (+15m)</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-right">
+                                <form method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="cita_id" value="{{ c.id }}">
+                                    {% if c.estado == '50% Pagado' %}
+                                        <button type="submit" name="accion" value="iniciar" class="btn btn-sm font-weight-bold mb-1" style="background:#c59d5f; color:#121212;">
+                                            ✂️ Iniciar Corte
+                                        </button>
+                                        <button type="submit" name="accion" value="liberar" class="btn btn-sm btn-outline-secondary mb-1">
+                                            Liberar (+15m)
+                                        </button>
+                                    {% elif c.estado == 'En Corte' %}
+                                        <button type="submit" name="accion" value="completar" class="btn btn-sm btn-success font-weight-bold">
+                                            ✓ Terminar y Cobrar (Pagada)
+                                        </button>
+                                    {% elif c.estado == 'Pagada' %}
+                                        <small class="text-success font-weight-bold">Servicio cerrado</small>
+                                    {% else %}
+                                        <small class="text-muted">Horario liberado</small>
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted">No hay citas registradas todavía.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BLOQUE 2: INVENTARIO SÚPER SIMPLE -->
+        <div id="inventario" class="pt-4 border-top">
+            <h2 class="font-weight-bold mb-1">2. Productos y Stock de la Tienda</h2>
+            <p class="text-muted mb-4">Agrega un producto nuevo arriba o usa los botones <strong>+1 / +5</strong> para aumentar el stock.</p>
+
+            <!-- Crear Producto Nuevo en 3 datos -->
+            <div class="card border-0 shadow-sm mb-4" style="border-radius:16px; border-left: 5px solid #c59d5f !important;">
+                <div class="card-body p-4">
+                    <h6 class="font-weight-bold mb-3">➕ Agregar Producto Nuevo</h6>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="accion" value="crear_producto">
+                        <div class="form-row align-items-end">
+                            <div class="form-group col-md-5 mb-2 mb-md-0">
+                                <label class="small font-weight-bold">¿Qué producto es?</label>
+                                <input type="text" name="titulo" class="form-control" placeholder="Ej. Cera Mate Barber 100g" style="border-radius:8px;" required>
+                            </div>
+                            <div class="form-group col-md-2 mb-2 mb-md-0">
+                                <label class="small font-weight-bold">Precio (S/)</label>
+                                <input type="number" step="0.50" min="1" name="precio" class="form-control" placeholder="35" style="border-radius:8px;" required>
+                            </div>
+                            <div class="form-group col-md-2 mb-2 mb-md-0">
+                                <label class="small font-weight-bold">Cantidad</label>
+                                <input type="number" min="0" name="stock" class="form-control" placeholder="10" style="border-radius:8px;" required>
+                            </div>
+                            <div class="form-group col-md-3 mb-0">
+                                <button type="submit" class="btn btn-block font-weight-bold" style="background:#121212; color:#c59d5f; border-radius:8px; height:38px;">
+                                    Guardar Producto
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Lista de Productos con Botones +1 / +5 / -1 -->
+            <div class="card border-0 shadow-sm" style="border-radius:16px; overflow:hidden;">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead style="background:#121212; color:#fff;">
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Stock Actual</th>
+                                <th class="text-right">Cambiar Stock en 1 Clic</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in productos_stock %}
+                            <tr>
+                                <td class="font-weight-bold">{{ item.product.title }}</td>
+                                <td>S/ {{ item.price }}</td>
+                                <td>
+                                    <span class="badge {% if item.num_in_stock <= 3 %}badge-danger{% else %}badge-success{% endif %} px-3 py-2" style="font-size:0.9rem;">
+                                        {{ item.num_in_stock }} unidades
+                                    </span>
+                                </td>
+                                <td class="text-right">
+                                    <form method="post" class="d-inline-flex align-items-center">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="stock_id" value="{{ item.id }}">
+                                        <button type="submit" name="accion" value="restar_1" class="btn btn-sm btn-outline-danger font-weight-bold mr-1">-1</button>
+                                        <button type="submit" name="accion" value="sumar_1" class="btn btn-sm btn-dark font-weight-bold mr-1">+1</button>
+                                        <button type="submit" name="accion" value="sumar_5" class="btn btn-sm font-weight-bold mr-3" style="background:#c59d5f; color:#121212;">+5</button>
+                                        
+                                        <input type="number" name="nuevo_stock" value="{{ item.num_in_stock }}" min="0" class="form-control form-control-sm mr-1" style="width:70px; border-radius:6px;">
+                                        <button type="submit" name="accion" value="fijar_stock" class="btn btn-sm btn-outline-secondary">Fijar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-muted">Aún no hay productos. Usa el cuadro de arriba para crear el primero.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

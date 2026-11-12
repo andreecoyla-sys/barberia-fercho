@@ -1,0 +1,93 @@
+{% extends "oscar/layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    Iniciar Sesión — Barbería Fercho | {{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ homepage_url }}">{% trans "Home" %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page" id="breadcrumb-titulo">Iniciar sesión</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+    <!-- Vista 1: SOLO INICIAR SESIÓN (Visible por defecto) -->
+    <div id="bloque-login" class="col-md-6 col-lg-5" {% if registration_form.errors %}style="display:none;"{% endif %}>
+        <div class="card border-0 shadow-sm" style="border-radius:16px;">
+            <div class="card-body p-4 p-md-5">
+                <h2 class="font-weight-bold mb-1 text-center">Iniciar sesión</h2>
+                <p class="text-muted small text-center mb-4">Ingresa a tu cuenta de Barbería Fercho</p>
+
+                <form id="login_form" action="{{ request.get_full_path }}" method="post">
+                    {% csrf_token %}
+                    {% include "oscar/partials/form_fields.html" with form=login_form %}
+                    
+                    <div class="mb-3 text-right">
+                        <a href="{% url 'password-reset' %}" class="small text-muted">{% trans "I've forgotten my password" %}</a>
+                    </div>
+
+                    <button name="login_submit" type="submit" value="Log In" class="btn btn-primary btn-block py-2" style="border-radius:10px; font-weight:700;">
+                        Iniciar sesión
+                    </button>
+                </form>
+
+                <!-- Enlace inferior hacia Registro -->
+                <div class="text-center mt-4 pt-3 border-top">
+                    <span class="text-muted small">¿No tienes cuenta?</span>
+                    <a href="#registro" onclick="mostrarRegistro(event)" class="font-weight-bold ml-1" style="color:#a37d3e;">
+                        Créate una aquí
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista 2: SOLO REGISTRAR CUENTA (Oculta hasta hacer clic en "Créate una aquí") -->
+    <div id="bloque-registro" class="col-md-6 col-lg-5" {% if not registration_form.errors %}style="display:none;"{% endif %}>
+        <div class="card border-0 shadow-sm" style="border-radius:16px;">
+            <div class="card-body p-4 p-md-5">
+                <h2 class="font-weight-bold mb-1 text-center">Crear cuenta</h2>
+                <p class="text-muted small text-center mb-4">Regístrate para comprar productos y gestionar tus pedidos</p>
+
+                <form id="register_form" action="{{ request.get_full_path }}" method="post">
+                    {% csrf_token %}
+                    {% include "oscar/partials/form_fields.html" with form=registration_form %}
+                    
+                    <button name="registration_submit" type="submit" value="Register" class="btn btn-primary btn-block py-2 mt-3" style="border-radius:10px; font-weight:700;">
+                        Crear mi cuenta
+                    </button>
+                </form>
+
+                <!-- Enlace para volver al Login -->
+                <div class="text-center mt-4 pt-3 border-top">
+                    <span class="text-muted small">¿Ya tienes una cuenta?</span>
+                    <a href="#login" onclick="mostrarLogin(event)" class="font-weight-bold ml-1" style="color:#a37d3e;">
+                        Inicia sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function mostrarRegistro(e) {
+        if (e) e.preventDefault();
+        document.getElementById('bloque-login').style.display = 'none';
+        document.getElementById('bloque-registro').style.display = 'block';
+        document.getElementById('breadcrumb-titulo').textContent = 'Crear cuenta';
+    }
+
+    function mostrarLogin(e) {
+        if (e) e.preventDefault();
+        document.getElementById('bloque-registro').style.display = 'none';
+        document.getElementById('bloque-login').style.display = 'block';
+        document.getElementById('breadcrumb-titulo').textContent = 'Iniciar sesión';
+    }
+</script>
+{% endblock content %}
