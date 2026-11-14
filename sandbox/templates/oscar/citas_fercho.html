@@ -2,82 +2,184 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Barbería Fercho — Reserva de Citas y Cortes</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #fafafa; color: #121212; font-family: 'Inter', sans-serif; }
-        .navbar-fercho { background: #121212; border-bottom: 2px solid #c59d5f; padding: 14px 0; }
-        .brand-title { color: #c59d5f !important; font-weight: 700; font-size: 1.45rem; letter-spacing: -0.5px; text-decoration: none; }
-        .btn-gold { background: #c59d5f; color: #121212 !important; font-weight: 700; border-radius: 50px; border: none; transition: 0.2s; }
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            background: #fafafa;
+            color: #121212;
+            font-family: 'Inter', sans-serif;
+        }
+        .navbar-fercho {
+            background: #121212;
+            border-bottom: 2px solid #c59d5f;
+            padding: 12px 0;
+        }
+        .brand-title {
+            color: #c59d5f !important;
+            font-weight: 700;
+            font-size: 1.35rem;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+        .btn-gold {
+            background: #c59d5f;
+            color: #121212 !important;
+            font-weight: 700;
+            border-radius: 50px;
+            border: none;
+            transition: 0.2s;
+        }
         .btn-gold:hover { background: #d6ae6e; transform: translateY(-1px); }
-        .btn-dark-custom { background: #121212; color: #c59d5f; font-weight: 600; border-radius: 10px; border: 1px solid #121212; transition: 0.2s; }
+        .btn-dark-custom {
+            background: #121212;
+            color: #c59d5f;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1px solid #121212;
+            transition: 0.2s;
+        }
         .btn-dark-custom:hover { background: #c59d5f; color: #121212; border-color: #c59d5f; }
-        .card-corte { border: 1px solid #ececec; border-radius: 16px; background: #fff; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-whatsapp {
+            background-color: #25D366;
+            color: #fff !important;
+            font-weight: 700;
+            border-radius: 10px;
+            border: none;
+            transition: 0.2s;
+        }
+        .btn-whatsapp:hover {
+            background-color: #1ebe5d;
+            color: #fff !important;
+        }
+        .card-corte {
+            border: 1px solid #ececec;
+            border-radius: 16px;
+            background: #fff;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
         .card-corte:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); }
-        
+
+        .badge-horario {
+            background: #121212;
+            color: #c59d5f;
+            letter-spacing: 0.5px;
+            white-space: normal;
+            text-align: left;
+            line-height: 1.4;
+            font-size: 0.72rem;
+            border-radius: 8px;
+        }
+
+        .horas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        @media (min-width: 768px) {
+            .horas-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
         .hora-btn {
-            border: 1.5px solid #dcdcdc; background: #fff; color: #121212;
-            font-weight: 600; border-radius: 10px; padding: 10px 14px;
-            margin: 4px; cursor: pointer; transition: all 0.15s ease; min-width: 102px;
+            border: 1.5px solid #dcdcdc;
+            background: #fff;
+            color: #121212;
+            font-weight: 600;
+            font-size: 0.88rem;
+            border-radius: 10px;
+            padding: 11px 6px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            width: 100%;
+            text-align: center;
         }
         .hora-btn:hover:not(:disabled) { border-color: #121212; background: #f4f4f4; }
-        .hora-btn.activo { background: #121212; color: #c59d5f; border-color: #121212; transform: scale(1.03); }
+        .hora-btn.activo { background: #121212; color: #c59d5f; border-color: #121212; transform: scale(1.02); }
         .hora-btn:disabled { background: #f1f1f1; color: #aaa; border-color: #e5e5e5; text-decoration: line-through; cursor: not-allowed; }
-        
+
         .caja-pago {
-            background: #121212; color: #fff; border-radius: 14px; padding: 20px; border: 1px solid #c59d5f;
+            background: #121212;
+            color: #fff;
+            border-radius: 14px;
+            padding: 18px;
+            border: 1px solid #c59d5f;
+        }
+
+        @media (max-width: 576px) {
+            .hero-title { font-size: 1.65rem; }
+            .nav-links-mobile {
+                width: 100%;
+                margin-top: 10px;
+                padding-top: 10px;
+                border-top: 1px solid rgba(197, 157, 95, 0.25);
+                justify-content: space-between;
+            }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-fercho">
-        <div class="container">
+    <nav class="navbar navbar-fercho">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between">
             <a class="brand-title d-flex align-items-center" href="/es/">
-                <span style="font-size:1.6rem; margin-right:8px;">💈</span>
+                <span style="font-size:1.55rem; margin-right:8px;">💈</span>
                 <div>
                     Barbería Fercho
-                    <small class="d-block text-light" style="font-size:0.72rem; font-weight:400;">Cortes Clásicos, Modernos & Productos</small>
+                    <small class="d-block text-light" style="font-size:0.7rem; font-weight:400;">Cortes Clásicos, Modernos & Productos</small>
                 </div>
             </a>
 
-            <div class="ml-auto d-flex align-items-center flex-wrap">
+            <div class="d-flex align-items-center flex-wrap nav-links-mobile">
                 {% if user.is_staff %}
-                    <a href="/panel-barbero/" class="btn btn-outline-warning btn-sm mr-3" style="border-radius:50px; font-weight:600;">
+                    <a href="/panel-barbero/" class="btn btn-outline-warning btn-sm mr-2 mb-1 mb-sm-0" style="border-radius:50px; font-weight:600; font-size:0.8rem;">
                         📋 Panel Barbero
                     </a>
                 {% endif %}
-                <a href="/es/" class="text-white mr-4 font-weight-bold" style="text-decoration:none; font-size:0.95rem;">
-                    Agendar Cita & Cortes
+                <a href="#seccion-reserva" class="text-white mr-3 font-weight-bold" style="text-decoration:none; font-size:0.88rem;">
+                    Agendar Cita
                 </a>
-                <a href="/es/catalogue/" class="btn btn-gold px-4 py-2">
-                    🧴 Productos Barber
+                <a href="/es/catalogue/" class="btn btn-gold btn-sm px-3 py-2" style="font-size:0.85rem;">
+                    🧴 Productos
                 </a>
             </div>
         </div>
     </nav>
 
-    <div class="container my-5">
+    <div class="container my-4 my-md-5">
         <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 pb-3 border-bottom">
             <div>
-                <span class="badge px-3 py-1 mb-2" style="background:#121212; color:#c59d5f; letter-spacing:1px;">
+                <span class="badge badge-horario px-3 py-2 mb-2">
                     LUN – SÁB · 10:00 AM A 10:00 PM (REFRIGERIO 1:00 PM – 2:00 PM)
                 </span>
-                <h1 class="mb-1" style="font-weight:700; letter-spacing:-0.8px;">Elige tu Corte y Reserva Cita</h1>
-                <p class="text-muted mb-0">Para garantizar tu turno de 1 hora, la reserva requiere el <strong>adelanto del 50%</strong> (15 min de tolerancia).</p>
+                <h1 class="hero-title mb-1" style="font-weight:700; letter-spacing:-0.8px;">Elige tu Corte y Reserva Cita</h1>
+                <p class="text-muted mb-0 small">Para garantizar tu turno de 1 hora, la reserva requiere el <strong>adelanto del 50%</strong> (15 min de tolerancia).</p>
             </div>
-            <a href="/es/catalogue/" class="btn btn-outline-dark mt-3 mt-md-0" style="border-radius:50px; font-weight:600;">
+            <a href="/es/catalogue/" class="btn btn-outline-dark btn-sm mt-3 mt-md-0 px-3 py-2" style="border-radius:50px; font-weight:600;">
                 Ir a Tienda de Productos →
             </a>
         </div>
 
         {% if mensaje %}
-            <div class="alert alert-success border-0 shadow-sm mb-4" style="border-radius:12px;">
-                <strong>✅ ¡Reserva Confirmada!</strong> {{ mensaje }}
+            <div class="alert alert-success border-0 shadow-sm mb-4 p-4" style="border-radius:16px; border-left: 5px solid #28a745 !important;">
+                <h5 class="font-weight-bold mb-1">✅ ¡Reserva Confirmada y Adelanto Registrado!</h5>
+                <p class="mb-3">{{ mensaje }}</p>
+                <p class="small text-dark mb-2 font-weight-bold">Comunícate directo con el barbero o envía tu captura de pago:</p>
+                <div class="d-flex flex-wrap">
+                    <a href="https://wa.me/51963213014?text={{ mensaje|urlencode }}" target="_blank" class="btn btn-whatsapp mr-2 mb-2 px-4 py-2">
+                        💬 Enviar Comprobante por WhatsApp
+                    </a>
+                    <a href="tel:963213014" class="btn btn-dark mb-2 px-4 py-2" style="border-radius:10px; font-weight:600;">
+                        📞 Llamar a Barbería (963 213 014)
+                    </a>
+                </div>
             </div>
         {% endif %}
+
         {% if error %}
             <div class="alert alert-danger border-0 shadow-sm mb-4" style="border-radius:12px;">
                 <strong>⚠️ Atención:</strong> {{ error }}
@@ -85,16 +187,176 @@
         {% endif %}
 
         <!-- Cuadrícula de Cortes -->
-        <div class="row mb-5">
+        <div class="row mb-4 mb-md-5">
             {% for c in cortes %}
-            <div class="col-md-4 mb-4">
+            <div class="col-12 col-md-4 mb-3 mb-md-4">
                 <div class="card card-corte h-100">
-                    <div class="card-body d-flex flex-column justify-content-between p-4">
+                    <div class="card-body d-flex flex-column justify-content-between p-3 p-md-4">
                         <div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span style="font-size:1.8rem;">✂️</span>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span style="font-size:1.6rem;">✂️</span>
                                 <span class="badge px-3 py-2" style="font-size:0.82rem; font-weight:700; color:#121212; background:#f3efe6; border-radius:50px;">
                                     Total: S/ {{ c.precio }}
                                 </span>
                             </div>
-                            <h5 class="font-
+                            <h5 class="font-weight-bold mb-1" style="font-size:1.05rem;">{{ c.nombre }}</h5>
+                            <p class="text-muted small mb-3">Adelanto requerido (50%): <strong>S/ {{ c.adelanto }}</strong></p>
+                        </div>
+                        <button type="button" class="btn btn-dark-custom btn-block py-2" onclick="seleccionarCorte('{{ c.nombre|escapejs }}')">
+                            Seleccionar este corte
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Formulario de Reserva -->
+        <div class="row" id="seccion-reserva">
+            <div class="col-12 col-lg-8 mb-4">
+                <div class="card border-0 shadow-sm p-3 p-md-4" style="border-radius:16px;">
+                    <h4 class="font-weight-bold mb-3 mb-md-4">📅 Completa tu Reserva</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="form-group col-12 col-md-6">
+                                <label class="font-weight-bold small">Nombre completo</label>
+                                <input type="text" name="nombre" class="form-control" placeholder="Ej. Juan Pérez" required>
+                            </div>
+                            <div class="form-group col-12 col-md-6">
+                                <label class="font-weight-bold small">Celular (9 dígitos)</label>
+                                <input type="tel" name="telefono" class="form-control" placeholder="Ej. 987654321" maxlength="9" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-12 col-md-6">
+                                <label class="font-weight-bold small">Servicio / Corte</label>
+                                <select name="servicio" id="select-servicio" class="form-control" onchange="actualizarPrecios()" required>
+                                    <option value="">-- Elige un corte --</option>
+                                    {% for c in cortes %}
+                                        <option value="{{ c.nombre }}">{{ c.nombre }} (S/ {{ c.precio }})</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group col-12 col-md-6">
+                                <label class="font-weight-bold small">Fecha de la cita (Lun - Sáb)</label>
+                                <input type="date" name="fecha" id="input-fecha" class="form-control" min="{{ hoy_iso }}" value="{{ hoy_iso }}" onchange="actualizarHorarios()" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="font-weight-bold small d-block">Selecciona una hora disponible</label>
+                            <input type="hidden" name="hora" id="input-hora" required>
+                            
+                            <small class="text-muted d-block mb-1">Turno Mañana:</small>
+                            <div class="horas-grid mb-3">
+                                {% for h in horarios_manana %}
+                                    <button type="button" class="hora-btn" data-hora="{{ h }}" onclick="elegirHora(this, '{{ h }}')">{{ h }}</button>
+                                {% endfor %}
+                            </div>
+
+                            <small class="text-muted d-block mb-1">Turno Tarde / Noche:</small>
+                            <div class="horas-grid">
+                                {% for h in horarios_tarde %}
+                                    <button type="button" class="hora-btn" data-hora="{{ h }}" onclick="elegirHora(this, '{{ h }}')">{{ h }}</button>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="caja-pago my-4">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span style="color:#c59d5f; font-weight:700; font-size:0.95rem;">💳 Pago de Adelanto (50%)</span>
+                                <span id="monto-adelanto" class="badge badge-warning px-3 py-2" style="font-size:0.92rem;">S/ 0.00</span>
+                            </div>
+                            <p class="small text-light mb-3">Yape / Plin al <strong>963 213 014</strong> (Barbería Fercho). Ingresa los datos de tu abono:</p>
+                            <div class="form-row">
+                                <div class="form-group col-12 col-md-5 mb-2">
+                                    <select name="metodo_pago" class="form-control" required>
+                                        <option value="">Método de pago...</option>
+                                        <option value="Yape">Yape</option>
+                                        <option value="Plin">Plin</option>
+                                        <option value="Transferencia">Transferencia</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-12 col-md-7 mb-2">
+                                    <input type="text" name="codigo_operacion" class="form-control" placeholder="N° de operación (mín. 4 dígitos)" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-gold btn-block py-3" style="font-size:1rem;">
+                            Confirmar Reserva con 50% de Adelanto
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Últimas Reservas -->
+            <div class="col-12 col-lg-4">
+                <div class="card border-0 shadow-sm p-3 p-md-4" style="border-radius:16px;">
+                    <h5 class="font-weight-bold mb-3">🕒 Turnos Reservados</h5>
+                    {% if citas %}
+                        <ul class="list-group list-group-flush">
+                            {% for cita in citas %}
+                                <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                                    <div class="pr-2">
+                                        <strong>{{ cita.fecha|date:"d/m/Y" }}</strong> · {{ cita.hora }}
+                                        <small class="d-block text-muted">{{ cita.servicio }}</small>
+                                    </div>
+                                    <span class="badge badge-dark">Ocupado</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p class="text-muted small mb-0">Aún no hay turnos reservados.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const CORTES_PRECIOS = {{ cortes_json|safe }};
+        const CITAS_OCUPADAS = {{ citas_json|safe }};
+
+        function seleccionarCorte(nombre) {
+            const select = document.getElementById('select-servicio');
+            select.value = nombre;
+            actualizarPrecios();
+            document.getElementById('seccion-reserva').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function actualizarPrecios() {
+            const servicio = document.getElementById('select-servicio').value;
+            const badge = document.getElementById('monto-adelanto');
+            if (CORTES_PRECIOS[servicio]) {
+                const adelanto = (CORTES_PRECIOS[servicio] / 2).toFixed(2);
+                badge.textContent = `S/ ${adelanto}`;
+            } else {
+                badge.textContent = 'S/ 0.00';
+            }
+        }
+
+        function elegirHora(btn, hora) {
+            document.querySelectorAll('.hora-btn').forEach(b => b.classList.remove('activo'));
+            btn.classList.add('activo');
+            document.getElementById('input-hora').value = hora;
+        }
+
+        function actualizarHorarios() {
+            const fecha = document.getElementById('input-fecha').value;
+            const ocupadasHoy = CITAS_OCUPADAS.filter(c => c.fecha === fecha).map(c => c.hora);
+            document.getElementById('input-hora').value = '';
+
+            document.querySelectorAll('.hora-btn').forEach(btn => {
+                btn.classList.remove('activo');
+                const h = btn.getAttribute('data-hora');
+                btn.disabled = ocupadasHoy.includes(h);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', actualizarHorarios);
+    </script>
+</body>
+</html>

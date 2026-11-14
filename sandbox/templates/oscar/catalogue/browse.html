@@ -1,0 +1,144 @@
+{% extends "oscar/layout_2_col.html" %}
+{% load basket_tags category_tags purchase_info_tags i18n %}
+
+{% block title %}
+    {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
+{% endblock %}
+
+{% block headertext %}{{ summary }}{% endblock %}
+
+{% block breadcrumbs %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ homepage_url }}">{% trans "Home" %}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ summary }}</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block column_left %}
+    {% category_tree as tree_categories %}
+    {% if tree_categories %}
+        <h4>{% trans "Show results for" %}</h4>
+        <div class="side_categories card card-body bg-light">
+            <ul class="nav nav-list flex-column">
+                {% for tree_category in tree_categories %}
+                    <li class="mt-2">
+                        <a href="{{ tree_category.url }}">
+                            {% if tree_category.pk == category.pk %}
+                                <strong>{{ tree_category.name }}</strong>
+                            {% else %}
+                                {{ tree_category.name }}
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% if has_facets %}
+        <h4>{% trans "Refine by" %}</h4>
+        <div class="side_categories card card-body bg-light">
+            {% for field, data in facet_data.items %}
+                {% include 'oscar/search/partials/facet.html' with name=data.name items=data.results %}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <form method="get" class="form-horizontal mb-3">
+        {% for value in selected_facets %}
+            <input type="hidden" name="selected_facets" value="{{ value }}" />
+        {% endfor %}
+        <input type="hidden" name="q" value="{{ search_form.q.value|default_if_none:'' }}" />
+
+        {% if paginator.count %}
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <span class="text-muted small"><strong>{{ paginator.count }}</strong> productos disponibles</span>
+                {% if form %}
+                    <div class="d-flex align-items-center">
+                        <label class="small font-weight-bold mb-0 mr-2">Ordenar:</label>
+                        {{ form.sort_by }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </form>
+
+    {% if products %}
+        <section>
+            <div class="fercho-grid-productos">
+                {% for item in products %}
+                    {% with product=item.object|default:item %}
+                    {% if product.pk %}
+                    <div class="fercho-grid-item">
+                        <article class="product_pod">
+                            <div class="image_container">
+                                <a href="{{ product.get_absolute_url }}">
+                                    {% with image=product.primary_image %}
+                                        {% if image and image.original %}
+                                            <img src="{{ image.original.url }}" alt="{{ product.get_title }}">
+                                        {% else %}
+                                            <span style="font-size:2.5rem; color:#ccc;">🧴</span>
+                                        {% endif %}
+                                    {% endwith %}
+                                </a>
+                            </div>
+
+                            <div>
+                                <h3>
+                                    <a href="{{ product.get_absolute_url }}" title="{{ product.get_title }}">
+                                        {{ product.get_title }}
+                                    </a>
+                                </h3>
+
+                                <div class="product_price">
+                                    {% purchase_info_for_product request product as session %}
+                                    {% if session.price.exists %}
+                                        <p class="price_color">
+                                            {% if session.price.excl_tax == 0 %}
+                                                Gratis
+                                            {% else %}
+                                                {{ session.price.incl_tax|floatformat:2 }} {{ session.price.currency }}
+                                            {% endif %}
+                                        </p>
+                                    {% endif %}
+
+                                    <p class="instock availability">
+                                        {% if session.availability.is_available_to_buy %}
+                                            <i class="fas fa-check-circle"></i> En existencia
+                                        {% else %}
+                                            <span class="text-danger">Agotado</span>
+                                        {% endif %}
+                                    </p>
+
+                                    {% if session.availability.is_available_to_buy %}
+                                        {% basket_form request product 'single' as basket_form %}
+                                        <form action="{% url 'basket:add' pk=product.pk %}" method="post" class="mb-0">
+                                            {% csrf_token %}
+                                            {{ basket_form.as_p }}
+                                            <button type="submit" class="btn btn-primary" data-loading-text="Añadiendo...">
+                                                Añadir al carrito
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+                {% endfor %}
+            </div>
+            {% include "oscar/partials/pagination.html" %}
+        </section>
+    {% else %}
+        <p class="nonefound">{% trans "No products found." %}</p>
+    {% endif %}
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.search.init();
+{% endblock %}

@@ -90,4 +90,67 @@
         document.getElementById('breadcrumb-titulo').textContent = 'Iniciar sesión';
     }
 </script>
+<style>
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    .password-wrapper input {
+        padding-right: 42px !important;
+        width: 100%;
+    }
+    .toggle-password-btn {
+        position: absolute;
+        right: 12px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: #666;
+        font-size: 1.15rem;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .toggle-password-btn:hover {
+        color: #121212;
+    }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const passwordInputs = document.querySelectorAll('input[type="password"]');
+
+    passwordInputs.forEach(function (input) {
+        // Evitar duplicar si ya tiene contenedor
+        if (input.parentElement.classList.contains("password-wrapper")) return;
+
+        // Crear contenedor relativo alrededor del input
+        const wrapper = document.createElement("div");
+        wrapper.className = "password-wrapper";
+        input.parentNode.insertBefore(wrapper, input);
+        wrapper.appendChild(input);
+
+        // Crear botón del ojito
+        const toggleBtn = document.createElement("button");
+        toggleBtn.type = "button";
+        toggleBtn.className = "toggle-password-btn";
+        toggleBtn.title = "Mostrar / Ocultar contraseña";
+        toggleBtn.innerHTML = "👁️";
+
+        toggleBtn.addEventListener("click", function () {
+            if (input.type === "password") {
+                input.type = "text";
+                toggleBtn.innerHTML = "🙈";
+            } else {
+                input.type = "password";
+                toggleBtn.innerHTML = "👁️";
+            }
+        });
+
+        wrapper.appendChild(toggleBtn);
+    });
+});
+</script>
 {% endblock content %}

@@ -6,7 +6,7 @@ from decimal import Decimal
 from django.db import transaction
 from django.shortcuts import render, redirect
 from django.contrib.admin.views.decorators import staff_member_required
-from oscar.apps.catalogue.models import Product, ProductClass, Category, ProductCategory
+from oscar.apps.catalogue.models import Product, ProductClass, Category, ProductCategory, ProductImage
 from oscar.apps.partner.models import Partner, StockRecord
 from citas_app.models import Cita
 
@@ -142,11 +142,12 @@ def vista_panel_barbero(request):
     if request.method == "POST":
         accion = request.POST.get("accion")
 
-        # Crear producto en 1 paso (solo nombre, precio y cantidad)
+        # Crear producto en 1 paso (nombre, precio, cantidad y foto opcional)
         if accion == "crear_producto":
             titulo = request.POST.get("titulo", "").strip()
             precio_str = request.POST.get("precio", "0").strip()
             stock_str = request.POST.get("stock", "0").strip()
+            foto = request.FILES.get("foto")
             try:
                 precio = Decimal(precio_str)
                 stock = int(stock_str)
@@ -169,6 +170,14 @@ def vista_panel_barbero(request):
                     if categoria:
                         ProductCategory.objects.create(product=prod, category=categoria)
 
+                    if foto:
+                        ProductImage.objects.create(
+                            product=prod,
+                            original=foto,
+                            caption=titulo,
+                            display_order=0,
+                        )
+
                     StockRecord.objects.create(
                         product=prod,
                         partner=partner,
@@ -179,6 +188,22 @@ def vista_panel_barbero(request):
                     )
             except Exception:
                 pass
+            return redirect("/panel-barbero/#inventario")
+
+        # Subir o cambiar foto de un producto ya existente
+        elif accion == "subir_foto":
+            stock_id = request.POST.get("stock_id")
+            foto = request.FILES.get("foto")
+            registro = StockRecord.objects.filter(id=stock_id).first()
+            if registro and foto:
+                prod = registro.product
+                prod.images.all().delete()
+                ProductImage.objects.create(
+                    product=prod,
+                    original=foto,
+                    caption=prod.title,
+                    display_order=0,
+                )
             return redirect("/panel-barbero/#inventario")
 
         # Botones rápidos de stock (+1, +5, -1 o guardar número exacto)
@@ -200,6 +225,17 @@ def vista_panel_barbero(request):
                     except ValueError:
                         pass
                 registro.save(update_fields=["num_in_stock"])
+            return redirect("/panel-barbero/#inventario")
+
+        # Eliminar producto del inventario y catálogo
+        elif accion == "eliminar_producto":
+            stock_id = request.POST.get("stock_id")
+            registro = StockRecord.objects.filter(id=stock_id).first()
+            if registro:
+                producto = registro.product
+                registro.delete()
+                if not producto.stockrecords.exists():
+                    producto.delete()
             return redirect("/panel-barbero/#inventario")
 
         # Control de citas
@@ -234,7 +270,7 @@ def vista_panel_barbero(request):
     # Mostrar TODOS los productos de la tienda sin duplicados
     productos_stock = []
     vistos = set()
-    for sr in StockRecord.objects.select_related("product").exclude(
+    for sr in StockRecord.objects.select_related("product").prefetch_related("product__images").exclude(
         product__product_class__name="Servicio de Corte"
     ).order_by("product__title"):
         if sr.product_id not in vistos:

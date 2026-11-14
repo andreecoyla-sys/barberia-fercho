@@ -1,37 +1,131 @@
 {% extends "oscar/base.html" %}
 
-{% block styles %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+{% block extrastyles %}
+    {{ block.super }}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background: #fafafa; color: #1a1a1a; font-family: 'Inter', -apple-system, sans-serif; }
-        header.header, .navbar-accounts { background: #121212 !important; border-bottom: 1px solid #262626; color: #fff; }
-        header.header a, .navbar-accounts a { color: #d4d4d4 !important; font-size: 0.9rem; }
-        header.header a:hover { color: #c59d5f !important; text-decoration: none; }
-        
-        /* Botones minimalistas */
-        .btn-primary { 
-            background: #121212 !important; border: 1px solid #121212 !important; 
-            color: #c59d5f !important; font-weight: 600; border-radius: 6px; padding: 10px 18px;
-            transition: all 0.2s ease;
+        body {
+            background: #ffffff !important;
+            color: #121212 !important;
+            font-family: 'Inter', -apple-system, sans-serif !important;
         }
-        .btn-primary:hover { background: #c59d5f !important; color: #121212 !important; border-color: #c59d5f !important; }
-        
-        /* Tarjetas de catálogo limpias */
-        .product_pod { 
-            background: #fff; border: 1px solid #ececec; border-radius: 12px; 
-            padding: 20px; text-align: left; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        header.header, .navbar-accounts {
+            background: #121212 !important;
+            border-bottom: 1px solid #262626 !important;
         }
-        .product_pod:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.07); }
-        .product_pod h3 a { color: #121212; font-size: 1rem; font-weight: 600; text-decoration: none; }
-        .product_pod .price_color { color: #121212; font-weight: 700; font-size: 1.1rem; }
-        
-        /* Placeholder moderno cuando no hay foto subida */
-        .image_container img[src*="image_not_found"] {
-            object-fit: cover; height: 140px; width: 100%; border-radius: 8px;
-            background: #f2f2f2; opacity: 0.35;
+        header.header a, .navbar-accounts a {
+            color: #e5e5e5 !important;
         }
-        footer.footer { background: #121212; color: #888; padding: 30px 0; margin-top: 60px; border-top: 2px solid #c59d5f; }
+
+        /* Grilla exacta: 2 columnas en celular, 3 en computadora, cero huecos */
+        .fercho-grid-productos {
+            display: grid !important;
+            grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            gap: 14px !important;
+            width: 100% !important;
+            margin-bottom: 24px !important;
+        }
+        @media (min-width: 768px) {
+            .fercho-grid-productos {
+                grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+                gap: 22px !important;
+            }
+        }
+        .fercho-grid-item {
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+
+        /* Tarjeta minimalista estilo tienda moderna */
+        .fercho-grid-item article.product_pod {
+            background: #ffffff !important;
+            border: 1px solid #efefef !important;
+            border-radius: 14px !important;
+            padding: 10px !important;
+            margin: 0 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            height: 100% !important;
+            text-align: left !important;
+        }
+
+        /* Foto grande protagonista con línea dorada inferior */
+        .fercho-grid-item article.product_pod .image_container {
+            width: 100% !important;
+            height: 160px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #f8f8f8 !important;
+            border-radius: 10px !important;
+            border: none !important;
+            border-bottom: 2px solid #c59d5f !important;
+            padding: 8px !important;
+            margin-bottom: 10px !important;
+            overflow: hidden !important;
+        }
+        @media (min-width: 768px) {
+            .fercho-grid-item article.product_pod .image_container {
+                height: 210px !important;
+            }
+        }
+        .fercho-grid-item article.product_pod .image_container img {
+            width: 100% !important;
+            height: 100% !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            object-fit: contain !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Título compacto y alineado */
+        .fercho-grid-item article.product_pod h3 {
+            font-size: 0.86rem !important;
+            line-height: 1.3 !important;
+            margin: 0 0 4px 0 !important;
+            min-height: 2.6em !important;
+            display: -webkit-box !important;
+            -webkit-line-clamp: 2 !important;
+            -webkit-box-orient: vertical !important;
+            overflow: hidden !important;
+        }
+        .fercho-grid-item article.product_pod h3 a {
+            color: #121212 !important;
+            font-size: 0.86rem !important;
+            font-weight: 700 !important;
+            text-decoration: none !important;
+        }
+
+        /* Precio y disponibilidad */
+        .fercho-grid-item article.product_pod .product_price {
+            margin-top: auto !important;
+        }
+        .fercho-grid-item article.product_pod .price_color {
+            color: #121212 !important;
+            font-size: 0.98rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 2px !important;
+        }
+        .fercho-grid-item article.product_pod .instock {
+            font-size: 0.72rem !important;
+            color: #28a745 !important;
+            font-weight: 600 !important;
+            margin-bottom: 8px !important;
+        }
+
+        /* Botón limpio de ancho completo */
+        .fercho-grid-item article.product_pod .btn-primary {
+            background: #121212 !important;
+            border: 1px solid #121212 !important;
+            color: #c59d5f !important;
+            font-size: 0.78rem !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+            padding: 8px 6px !important;
+            width: 100% !important;
+        }
     </style>
 {% endblock %}

@@ -1,0 +1,1650 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$Zo9sbpYZVTUgoHPgaZslG4$E37RO9VOh4KctKvU786azQWtn/Bxm6TvrUXcnLyrn6A=",
+    "last_login": "2026-11-12T20:54:14.865Z",
+    "is_superuser": true,
+    "username": "fourt",
+    "first_name": "",
+    "last_name": "",
+    "email": "andree.coyla@tecsup.edu.pe",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-11-12T18:39:16.776Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$97xTodIU4gcpeXD5mELv9P$FX/ZIfoSVOdHWpBIu/NfLeOCeCdJuxRjafuFqnPkBTI=",
+    "last_login": "2026-11-12T21:15:43.544Z",
+    "is_superuser": true,
+    "username": "wT5L9wcy26t3C_Lda0dSk4KwiZyUvb",
+    "first_name": "",
+    "last_name": "",
+    "email": "andreeyoshuacoylavergaray@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-11-12T21:15:42.374Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "klq27eyqm49vku9cb78tffyu56sv9oqo",
+  "fields": {
+    "session_data": ".eJxVjMsOgyAURP-FdWN4CeKyid9BLpfbYKzVCKyM_15NXLTLmTlzduahluRrps2PkfVMssdvFwAn-lzDkhG2BtY1N1hzWWY608XdSG6GGcb38z78WRLkdCpEbIPrwL5QWjQYlXJCBtPpqAMnzVsySiAIg45bwthZbTloLqVyFkmfUkyE01KLj1CA9ftxfAHMgECP:1xSGSw:qJTeThqjVSCVKdcNA0Ks13FMSFAy1g34fWgHKKyrFBQ",
+    "expire_date": "2026-11-28T16:18:58.762Z"
+  }
+},
+{
+  "model": "sites.site",
+  "fields": {
+    "domain": "127.0.0.1:8000",
+    "name": "Barbería Fercho"
+  }
+},
+{
+  "model": "analytics.productrecord",
+  "pk": 1,
+  "fields": {
+    "product": 6,
+    "num_views": 1,
+    "num_basket_additions": 3,
+    "num_purchases": 1,
+    "score": 0.0
+  }
+},
+{
+  "model": "analytics.productrecord",
+  "pk": 2,
+  "fields": {
+    "product": 2,
+    "num_views": 0,
+    "num_basket_additions": 1,
+    "num_purchases": 0,
+    "score": 0.0
+  }
+},
+{
+  "model": "analytics.productrecord",
+  "pk": 3,
+  "fields": {
+    "product": 4,
+    "num_views": 0,
+    "num_basket_additions": 1,
+    "num_purchases": 0,
+    "score": 0.0
+  }
+},
+{
+  "model": "analytics.productrecord",
+  "pk": 4,
+  "fields": {
+    "product": 1,
+    "num_views": 1,
+    "num_basket_additions": 0,
+    "num_purchases": 0,
+    "score": 0.0
+  }
+},
+{
+  "model": "analytics.productrecord",
+  "pk": 5,
+  "fields": {
+    "product": 5,
+    "num_views": 0,
+    "num_basket_additions": 1,
+    "num_purchases": 0,
+    "score": 0.0
+  }
+},
+{
+  "model": "analytics.userrecord",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "fourt"
+    ],
+    "num_product_views": 0,
+    "num_basket_additions": 1,
+    "num_orders": 1,
+    "num_order_lines": 1,
+    "num_order_items": 1,
+    "total_spent": "120.00",
+    "date_last_order": "2026-11-12T20:18:23.195Z"
+  }
+},
+{
+  "model": "analytics.userrecord",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "wT5L9wcy26t3C_Lda0dSk4KwiZyUvb"
+    ],
+    "num_product_views": 1,
+    "num_basket_additions": 3,
+    "num_orders": 0,
+    "num_order_lines": 0,
+    "num_order_items": 0,
+    "total_spent": "0.00",
+    "date_last_order": null
+  }
+},
+{
+  "model": "analytics.userproductview",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "wT5L9wcy26t3C_Lda0dSk4KwiZyUvb"
+    ],
+    "product": 1,
+    "date_created": "2026-11-12T21:28:39.065Z"
+  }
+},
+{
+  "model": "address.useraddress",
+  "pk": 1,
+  "fields": {
+    "title": "",
+    "first_name": "Andree",
+    "last_name": "Coyla",
+    "line1": "urb casa bella c15",
+    "line2": "Av. navarrete 903",
+    "line3": "urb casa bella c15",
+    "line4": "mollendo",
+    "state": "ISLAY",
+    "postcode": "04002",
+    "country": "PE",
+    "search_text": "Andree Coyla urb casa bella c15 Av. navarrete 903 urb casa bella c15 mollendo ISLAY 04002 Peru",
+    "phone_number": "+51963213014",
+    "notes": "fdc d",
+    "user": [
+      "fourt"
+    ],
+    "is_default_for_shipping": false,
+    "is_default_for_billing": false,
+    "num_orders_as_shipping_address": 1,
+    "num_orders_as_billing_address": 0,
+    "hash": "1711035910",
+    "date_created": "2026-11-12T20:18:23.159Z"
+  }
+},
+{
+  "model": "address.country",
+  "pk": "PE",
+  "fields": {
+    "iso_3166_1_a3": "PER",
+    "iso_3166_1_numeric": "604",
+    "printable_name": "Peru",
+    "name": "Republic of Peru",
+    "display_order": 0,
+    "is_shipping_country": true
+  }
+},
+{
+  "model": "shipping.orderanditemcharges",
+  "pk": 1,
+  "fields": {
+    "code": "envio-delivery-local-nacional",
+    "name": "Envío Delivery Local / Nacional",
+    "description": "Entrega estándar en 24 a 48 horas",
+    "price_per_order": "10.00",
+    "price_per_item": "0.00",
+    "free_shipping_threshold": "150.00",
+    "countries": []
+  }
+},
+{
+  "model": "catalogue.productclass",
+  "pk": 1,
+  "fields": {
+    "name": "Producto Físico Barbería",
+    "slug": "producto-fisico-barberia",
+    "requires_shipping": true,
+    "track_stock": true,
+    "options": []
+  }
+},
+{
+  "model": "catalogue.productclass",
+  "pk": 2,
+  "fields": {
+    "name": "Servicio de Corte",
+    "slug": "servicio-de-corte",
+    "requires_shipping": false,
+    "track_stock": false,
+    "options": []
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 1,
+  "fields": {
+    "path": "0001",
+    "depth": 1,
+    "numchild": 0,
+    "name": "Cuidado de Barba",
+    "code": "",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "image": "",
+    "slug": "cuidado-de-barba",
+    "is_public": true,
+    "ancestors_are_public": true
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 2,
+  "fields": {
+    "path": "0002",
+    "depth": 1,
+    "numchild": 0,
+    "name": "Cabello y Peinado",
+    "code": "",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "image": "",
+    "slug": "cabello-y-peinado",
+    "is_public": true,
+    "ancestors_are_public": true
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 3,
+  "fields": {
+    "path": "0003",
+    "depth": 1,
+    "numchild": 0,
+    "name": "Herramientas y Afeitado",
+    "code": "",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "image": "",
+    "slug": "herramientas-y-afeitado",
+    "is_public": true,
+    "ancestors_are_public": true
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 4,
+  "fields": {
+    "path": "0004",
+    "depth": 1,
+    "numchild": 0,
+    "name": "Servicios de Cortes",
+    "code": "",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "image": "",
+    "slug": "servicios-de-cortes",
+    "is_public": true,
+    "ancestors_are_public": true
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 5,
+  "fields": {
+    "path": "0005",
+    "depth": 1,
+    "numchild": 3,
+    "name": "Productos",
+    "code": "",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "image": "",
+    "slug": "productos",
+    "is_public": true,
+    "ancestors_are_public": true
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 6,
+  "fields": {
+    "path": "00050001",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Cuidado de Barba",
+    "code": "",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "image": "",
+    "slug": "cuidado-de-barba",
+    "is_public": true,
+    "ancestors_are_public": true
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 7,
+  "fields": {
+    "path": "00050002",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Cabello y Peinado",
+    "code": "",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "image": "",
+    "slug": "cabello-y-peinado",
+    "is_public": true,
+    "ancestors_are_public": true
+  }
+},
+{
+  "model": "catalogue.category",
+  "pk": 8,
+  "fields": {
+    "path": "00050003",
+    "depth": 2,
+    "numchild": 0,
+    "name": "Herramientas y Afeitado",
+    "code": "",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "image": "",
+    "slug": "herramientas-y-afeitado",
+    "is_public": true,
+    "ancestors_are_public": true
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "category": 1
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 2,
+  "fields": {
+    "product": 2,
+    "category": 1
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 3,
+  "fields": {
+    "product": 3,
+    "category": 2
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 4,
+  "fields": {
+    "product": 4,
+    "category": 2
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 5,
+  "fields": {
+    "product": 5,
+    "category": 3
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 6,
+  "fields": {
+    "product": 6,
+    "category": 3
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 7,
+  "fields": {
+    "product": 7,
+    "category": 4
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 8,
+  "fields": {
+    "product": 8,
+    "category": 4
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 9,
+  "fields": {
+    "product": 9,
+    "category": 4
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 10,
+  "fields": {
+    "product": 10,
+    "category": 4
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 11,
+  "fields": {
+    "product": 11,
+    "category": 4
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 12,
+  "fields": {
+    "product": 1,
+    "category": 6
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 13,
+  "fields": {
+    "product": 2,
+    "category": 6
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 14,
+  "fields": {
+    "product": 3,
+    "category": 7
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 15,
+  "fields": {
+    "product": 4,
+    "category": 7
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 16,
+  "fields": {
+    "product": 5,
+    "category": 8
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 17,
+  "fields": {
+    "product": 6,
+    "category": 8
+  }
+},
+{
+  "model": "catalogue.productcategory",
+  "pk": 18,
+  "fields": {
+    "product": 12,
+    "category": 1
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 1,
+  "fields": {
+    "structure": "standalone",
+    "is_public": true,
+    "upc": "BARB-001",
+    "parent": null,
+    "title": "Aceite Hidratante para Barba Sándalo 30ml",
+    "slug": "aceite-hidratante-para-barba-sandalo-30ml",
+    "description": "Aceite esencial natural para suavizar, nutrir y dar brillo a la barba.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 1,
+    "rating": null,
+    "date_created": "2026-11-12T20:16:11.193Z",
+    "date_updated": "2026-11-12T20:35:24.430Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 2,
+  "fields": {
+    "structure": "standalone",
+    "is_public": true,
+    "upc": "BARB-002",
+    "parent": null,
+    "title": "Bálsamo Moldeador de Barba Clásico 60g",
+    "slug": "balsamo-moldeador-de-barba-clasico-60g",
+    "description": "Fijación media con cera de abeja y manteca de karité.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 1,
+    "rating": null,
+    "date_created": "2026-11-12T20:16:11.817Z",
+    "date_updated": "2026-11-12T20:35:24.671Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 3,
+  "fields": {
+    "structure": "standalone",
+    "is_public": true,
+    "upc": "CAB-001",
+    "parent": null,
+    "title": "Cera Mate Fijación Fuerte 100g",
+    "slug": "cera-mate-fijacion-fuerte-100g",
+    "description": "Cera moldeadora a base de agua con acabado totalmente natural.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 1,
+    "rating": null,
+    "date_created": "2026-11-12T20:16:12.096Z",
+    "date_updated": "2026-11-12T20:35:24.913Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 4,
+  "fields": {
+    "structure": "standalone",
+    "is_public": true,
+    "upc": "CAB-002",
+    "parent": null,
+    "title": "Pomada Clásica Brillo Medio 100g",
+    "slug": "pomada-clasica-brillo-medio-100g",
+    "description": "Ideal para peinados clásicos tipo pompadour o slick back.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 1,
+    "rating": null,
+    "date_created": "2026-11-12T20:16:12.350Z",
+    "date_updated": "2026-11-12T20:35:25.199Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 5,
+  "fields": {
+    "structure": "standalone",
+    "is_public": true,
+    "upc": "HERR-001",
+    "parent": null,
+    "title": "Navaja Barbera Acero Inoxidable Profesional",
+    "slug": "navaja-barbera-acero-inoxidable-profesional",
+    "description": "Porta navajas ergonómico con mango antideslizante.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 1,
+    "rating": null,
+    "date_created": "2026-11-12T20:16:12.563Z",
+    "date_updated": "2026-11-12T20:35:25.840Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 6,
+  "fields": {
+    "structure": "standalone",
+    "is_public": true,
+    "upc": "HERR-002",
+    "parent": null,
+    "title": "Kit Tijeras de Corte y Entresacar 6.0 Pulgadas",
+    "slug": "kit-tijeras-de-corte-y-entresacar-60-pulgadas",
+    "description": "Acero japonés de alta durabilidad con estuche protector.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 1,
+    "rating": null,
+    "date_created": "2026-11-12T20:16:12.801Z",
+    "date_updated": "2026-11-12T20:35:26.065Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 7,
+  "fields": {
+    "structure": "standalone",
+    "is_public": false,
+    "upc": "CORTE-01",
+    "parent": null,
+    "title": "Corte Clásico a Tijera y Máquina",
+    "slug": "corte-clasico-a-tijera-y-maquina",
+    "description": "Corte tradicional con acabado limpio, lavado capilar y peinado con pomada.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 2,
+    "rating": null,
+    "date_created": "2026-11-12T20:25:00.687Z",
+    "date_updated": "2026-11-12T20:35:22.920Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 8,
+  "fields": {
+    "structure": "standalone",
+    "is_public": false,
+    "upc": "CORTE-02",
+    "parent": null,
+    "title": "Degradado / Fade (Low, Mid o High)",
+    "slug": "degradado-fade-low-mid-o-high",
+    "description": "Desvanecido de alta precisión con navaja, perfilado de cerquillo y styling.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 2,
+    "rating": null,
+    "date_created": "2026-11-12T20:25:01.096Z",
+    "date_updated": "2026-11-12T20:35:23.249Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 9,
+  "fields": {
+    "structure": "standalone",
+    "is_public": false,
+    "upc": "CORTE-03",
+    "parent": null,
+    "title": "Corte + Perfilado de Barba con Toalla Caliente",
+    "slug": "corte-perfilado-de-barba-con-toalla-caliente",
+    "description": "Servicio completo: corte a elección + ritual de barba con vapor, toalla caliente y aceite esencial.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 2,
+    "rating": null,
+    "date_created": "2026-11-12T20:25:01.397Z",
+    "date_updated": "2026-11-12T20:35:23.441Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 10,
+  "fields": {
+    "structure": "standalone",
+    "is_public": false,
+    "upc": "CORTE-04",
+    "parent": null,
+    "title": "Mullet / Taper Fade Moderno",
+    "slug": "mullet-taper-fade-moderno",
+    "description": "Texturizado moderno adaptado a la forma del rostro con acabado mate.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 2,
+    "rating": null,
+    "date_created": "2026-11-12T20:25:01.615Z",
+    "date_updated": "2026-11-12T20:35:23.642Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 11,
+  "fields": {
+    "structure": "standalone",
+    "is_public": false,
+    "upc": "CORTE-05",
+    "parent": null,
+    "title": "Corte Infantil (Hasta 12 años)",
+    "slug": "corte-infantil-hasta-12-anos",
+    "description": "Corte cómodo, rápido y estilizado para niños.",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 2,
+    "rating": null,
+    "date_created": "2026-11-12T20:25:01.870Z",
+    "date_updated": "2026-11-12T20:35:24.153Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.product",
+  "pk": 12,
+  "fields": {
+    "structure": "standalone",
+    "is_public": true,
+    "upc": "FER-B337C2",
+    "parent": null,
+    "title": "Minoxidil 500 ml.",
+    "slug": "minoxidil-500-ml",
+    "description": "",
+    "meta_title": null,
+    "meta_description": null,
+    "product_class": 1,
+    "rating": null,
+    "date_created": "2026-11-14T16:32:39.203Z",
+    "date_updated": "2026-11-14T16:32:39.203Z",
+    "is_discountable": true,
+    "product_options": []
+  }
+},
+{
+  "model": "catalogue.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "code": "",
+    "original": "images/products/2026/11/images.jpg",
+    "caption": "Aceite Hidratante para Barba Sándalo 30ml",
+    "display_order": 0,
+    "date_created": "2026-11-14T16:40:33.882Z"
+  }
+},
+{
+  "model": "catalogue.productimage",
+  "pk": 2,
+  "fields": {
+    "product": 2,
+    "code": "",
+    "original": "images/products/2026/11/american-crew-beard-balm-60-gr.jpg",
+    "caption": "Bálsamo Moldeador de Barba Clásico 60g",
+    "display_order": 0,
+    "date_created": "2026-11-14T16:40:56.060Z"
+  }
+},
+{
+  "model": "catalogue.productimage",
+  "pk": 3,
+  "fields": {
+    "product": 3,
+    "code": "",
+    "original": "images/products/2026/11/61XTDvHUNXL._AC_UF8941000_QL80_.jpg",
+    "caption": "Cera Mate Fijación Fuerte 100g",
+    "display_order": 0,
+    "date_created": "2026-11-14T16:41:41.681Z"
+  }
+},
+{
+  "model": "catalogue.productimage",
+  "pk": 4,
+  "fields": {
+    "product": 6,
+    "code": "",
+    "original": "images/products/2026/11/images_1.jpg",
+    "caption": "Kit Tijeras de Corte y Entresacar 6.0 Pulgadas",
+    "display_order": 0,
+    "date_created": "2026-11-14T16:42:34.830Z"
+  }
+},
+{
+  "model": "catalogue.productimage",
+  "pk": 5,
+  "fields": {
+    "product": 12,
+    "code": "",
+    "original": "images/products/2026/11/Captura_de_pantalla_2026-11-14_114339.png",
+    "caption": "Minoxidil 500 ml.",
+    "display_order": 0,
+    "date_created": "2026-11-14T16:44:02.268Z"
+  }
+},
+{
+  "model": "catalogue.productimage",
+  "pk": 6,
+  "fields": {
+    "product": 5,
+    "code": "",
+    "original": "images/products/2026/11/images_2.jpg",
+    "caption": "Navaja Barbera Acero Inoxidable Profesional",
+    "display_order": 0,
+    "date_created": "2026-11-14T16:44:35.617Z"
+  }
+},
+{
+  "model": "catalogue.productimage",
+  "pk": 7,
+  "fields": {
+    "product": 4,
+    "code": "",
+    "original": "images/products/2026/11/Captura_de_pantalla_2026-11-14_114600.png",
+    "caption": "Pomada Clásica Brillo Medio 100g",
+    "display_order": 0,
+    "date_created": "2026-11-14T16:46:07.663Z"
+  }
+},
+{
+  "model": "communication.email",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "fourt"
+    ],
+    "email": "andree.coyla@tecsup.edu.pe",
+    "subject": "Confirmation of order 100001",
+    "body_text": "Hello,\n\nWe are pleased to confirm your order 100001 has been received and\nwill be processed shortly.\n\nYour order contains:\n\n * Kit Tijeras de Corte y Entresacar 6.0 Pulgadas - quantity: 1 - price: PEN120.00\n\nBasket total: PEN120.00\nShipping: PEN0.00\nOrder Total: PEN120.00\n\nShipping address:\n\n  Andree Coyla\n  urb casa bella c15\n  Av. navarrete 903\n  urb casa bella c15\n  mollendo\n  ISLAY\n  04002\n  Peru\n\n\n\n\nYou can view the status of this order at the below URL:\nhttp://example.com/en-gb/accounts/orders/100001/\n\n\nThe team\n",
+    "body_html": "\n<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n    <head>\n        <meta name=\"viewport\" content=\"width=device-width\" />\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />\n        <style>\n            * {\n              margin: 0;\n              font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n              box-sizing: border-box;\n              font-size: 14px;\n            }\n\n            img {\n              max-width: 100%;\n            }\n\n            body {\n              -webkit-font-smoothing: antialiased;\n              -webkit-text-size-adjust: none;\n              width: 100% !important;\n              height: 100%;\n              line-height: 1.6em;\n            }\n\n            table td {\n              vertical-align: top;\n            }\n\n            body {\n              background-color: #f6f6f6;\n            }\n\n            .body-wrap {\n              background-color: #f6f6f6;\n              width: 100%;\n            }\n\n            .container {\n              display: block !important;\n              max-width: 600px !important;\n              margin: 0 auto !important;\n              clear: both !important;\n            }\n\n            .content {\n              max-width: 600px;\n              margin: 0 auto;\n              display: block;\n              padding: 20px;\n            }\n\n            .main {\n              background-color: #fff;\n              border: 1px solid #e9e9e9;\n              border-radius: 3px;\n            }\n\n            .content-wrap {\n              padding: 20px;\n            }\n\n            .content-block {\n              padding: 0 0 20px;\n            }\n\n            .header {\n              width: 100%;\n              margin-bottom: 20px;\n            }\n\n            .footer {\n              width: 100%;\n              clear: both;\n              color: #999;\n              padding: 20px;\n            }\n            .footer p, .footer a, .footer td {\n              color: #999;\n              font-size: 12px;\n            }\n\n            h1, h2, h3 {\n              font-family: \"Helvetica Neue\", Helvetica, Arial, \"Lucida Grande\", sans-serif;\n              color: #000;\n              margin: 40px 0 0;\n              line-height: 1.2em;\n              font-weight: 400;\n            }\n\n            h1 {\n              font-size: 32px;\n              font-weight: 500;\n            }\n\n            h2 {\n              font-size: 24px;\n            }\n\n            h3 {\n              font-size: 18px;\n            }\n\n            h4 {\n              font-size: 14px;\n              font-weight: 600;\n            }\n\n            p, ul, ol {\n              margin-bottom: 10px;\n              font-weight: normal;\n            }\n            p li, ul li, ol li {\n              margin-left: 5px;\n              list-style-position: inside;\n            }\n\n            a {\n              color: #348eda;\n              text-decoration: underline;\n            }\n\n            .btn-primary {\n              text-decoration: none;\n              color: #FFF;\n              background-color: #348eda;\n              border: solid #348eda;\n              border-width: 10px 20px;\n              line-height: 2em;\n              font-weight: bold;\n              text-align: center;\n              cursor: pointer;\n              display: inline-block;\n              border-radius: 5px;\n              text-transform: capitalize;\n            }\n\n            .last {\n              margin-bottom: 0;\n            }\n\n            .first {\n              margin-top: 0;\n            }\n\n            .aligncenter {\n              text-align: center;\n            }\n\n            .alignright {\n              text-align: right;\n            }\n\n            .alignleft {\n              text-align: left;\n            }\n\n            .clear {\n              clear: both;\n            }\n\n            .alert {\n              font-size: 16px;\n              color: #fff;\n              font-weight: 500;\n              padding: 20px;\n              text-align: center;\n              border-radius: 3px 3px 0 0;\n            }\n            .alert a {\n              color: #fff;\n              text-decoration: none;\n              font-weight: 500;\n              font-size: 16px;\n            }\n            .alert.alert-warning {\n              background-color: #FF9F00;\n            }\n            .alert.alert-bad {\n              background-color: #D0021B;\n            }\n            .alert.alert-good {\n              background-color: #68B90F;\n            }\n\n            .invoice {\n              margin: 40px auto;\n              text-align: left;\n              width: 80%;\n            }\n            .order {\n              text-align: left;\n              width: 100%;\n            }\n            .invoice td, .order td {\n              padding: 5px 0;\n            }\n            .invoice .invoice-items, .order .order-items {\n              width: 100%;\n            }\n            .invoice .invoice-items td, .order .order-items td {\n              border-top: #eee 1px solid;\n            }\n            .invoice .invoice-items .total td, .order .order-items .total td {\n              border-top: 2px solid #333;\n              border-bottom: 2px solid #333;\n              font-weight: 700;\n            }\n\n            @media only screen and (max-width: 640px) {\n              body {\n                padding: 0 !important;\n              }\n\n              h1, h2, h3, h4 {\n                font-weight: 800 !important;\n                margin: 20px 0 5px !important;\n              }\n\n              h1 {\n                font-size: 22px !important;\n              }\n\n              h2 {\n                font-size: 18px !important;\n              }\n\n              h3 {\n                font-size: 16px !important;\n              }\n\n              .container {\n                padding: 0 !important;\n                width: 100% !important;\n              }\n\n              .content {\n                padding: 0 !important;\n              }\n\n              .content-wrap {\n                padding: 10px !important;\n              }\n\n              .invoice {\n                width: 100% !important;\n              }\n\n              .order {\n                width: 100% !important;\n              }\n            }\n\n        </style>\n    </head>\n\n    <body itemscope itemtype=\"http://schema.org/EmailMessage\">\n\n    <table class=\"body-wrap\">\n        <tr>\n            <td></td>\n            <td class=\"container\" width=\"600\">\n                <div class=\"content\">\n                    <table class=\"main\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" itemprop=\"action\" itemscope itemtype=\"http://schema.org/ConfirmAction\">\n                        <tr>\n                            <td class=\"content-wrap\">\n                                <table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n                                    \n                                    \n<tr>\n    <td class=\"content-block\">\n        <p xmlns=\"http://www.w3.org/1999/html\">Hello,</p>\n        <p>We are pleased to confirm your order 100001 has been received and\n        will be processed shortly.</p>\n    </td>\n</tr>\n\n<tr>\n    <td class=\"content-block\">\n        <table class=\"order\">\n            <tbody><tr>\n                <td>Your order contains:</td>\n            </tr>\n            <tr>\n                <td>\n                    <table class=\"order-items\" cellpadding=\"0\" cellspacing=\"0\">\n                        <tbody>\n                            \n                                <tr>\n                                    <td>Kit Tijeras de Corte y Entresacar 6.0 Pulgadas &times; 1</td>\n                                    <td class=\"alignright\">PEN120.00</td>\n                                </tr>\n                            \n                            <tr>\n                                <td class=\"alignright\">Basket total:</td>\n                                <td class=\"alignright\">PEN120.00</td>\n                            </tr>\n                            <tr>\n                                <td class=\"alignright\">Shipping:</td>\n                                <td class=\"alignright\">PEN0.00</td>\n                            </tr>\n                            <tr class=\"total\">\n                                <td class=\"alignright\" width=\"80%\">Order Total:</td>\n                                <td class=\"alignright\">PEN120.00</td>\n                            </tr>\n                        </tbody>\n                    </table>\n                </td>\n            </tr>\n        </tbody></table>\n    </td>\n</tr>\n\n<tr>\n    <td class=\"content-block\">\n        <p>Shipping address:</p>\n        <p>  Andree Coyla<br/>\n          urb casa bella c15<br/>\n          Av. navarrete 903<br/>\n          urb casa bella c15<br/>\n          mollendo<br/>\n          ISLAY<br/>\n          04002<br/>\n          Peru<br/>\n        </p>\n    </td>\n</tr>\n\n\n    <tr>\n        <td class=\"content-block\">\n            \n            You can view the status of this order by clicking <a href=\"http://example.com/en-gb/accounts/orders/100001/\" title=\"order status\">here</a>\n        </td>\n    </tr>\n\n\n\n                                    \n                                        <tr>\n                                            <td class=\"content-block\">\n                                                <p>Thanks for using our site!</p>\n                                                <p>The example.com team</p>\n                                            </td>\n                                        </tr>\n                                    \n                                </table>\n                            </td>\n                        </tr>\n                    </table>\n                </div>\n            </td>\n            <td></td>\n        </tr>\n    </table>\n\n    </body>\n</html>",
+    "date_sent": "2026-11-12T20:18:25.895Z"
+  }
+},
+{
+  "model": "communication.email",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "wT5L9wcy26t3C_Lda0dSk4KwiZyUvb"
+    ],
+    "email": "andreeyoshuacoylavergaray@gmail.com",
+    "subject": "Gracias por registrarse.",
+    "body_text": "Gracias por registrarse.",
+    "body_html": "<p>Gracias por registrarse.</p>",
+    "date_sent": "2026-11-12T21:15:43.047Z"
+  }
+},
+{
+  "model": "partner.partner",
+  "pk": 1,
+  "fields": {
+    "code": "almacen-central-barberia",
+    "name": "Almacén Central Barbería",
+    "users": []
+  }
+},
+{
+  "model": "partner.partner",
+  "pk": 2,
+  "fields": {
+    "code": "sede-principal-barberia-fercho",
+    "name": "Sede Principal Barbería Fercho",
+    "users": []
+  }
+},
+{
+  "model": "partner.partner",
+  "pk": 3,
+  "fields": {
+    "code": "barberia-fercho",
+    "name": "Barbería Fercho",
+    "users": []
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 1,
+  "fields": {
+    "product": 1,
+    "partner": 1,
+    "partner_sku": "BARB-001",
+    "price_currency": "PEN",
+    "price": "45.00",
+    "num_in_stock": 25,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:16:11.800Z",
+    "date_updated": "2026-11-12T20:16:11.800Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 2,
+  "fields": {
+    "product": 2,
+    "partner": 1,
+    "partner_sku": "BARB-002",
+    "price_currency": "PEN",
+    "price": "52.00",
+    "num_in_stock": 20,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:16:12.078Z",
+    "date_updated": "2026-11-12T20:16:12.078Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 3,
+  "fields": {
+    "product": 3,
+    "partner": 1,
+    "partner_sku": "CAB-001",
+    "price_currency": "PEN",
+    "price": "38.00",
+    "num_in_stock": 40,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:16:12.338Z",
+    "date_updated": "2026-11-12T20:16:12.338Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 4,
+  "fields": {
+    "product": 4,
+    "partner": 1,
+    "partner_sku": "CAB-002",
+    "price_currency": "PEN",
+    "price": "42.00",
+    "num_in_stock": 30,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:16:12.551Z",
+    "date_updated": "2026-11-12T20:16:12.551Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 5,
+  "fields": {
+    "product": 5,
+    "partner": 1,
+    "partner_sku": "HERR-001",
+    "price_currency": "PEN",
+    "price": "65.00",
+    "num_in_stock": 15,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:16:12.785Z",
+    "date_updated": "2026-11-12T20:16:12.785Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 6,
+  "fields": {
+    "product": 6,
+    "partner": 1,
+    "partner_sku": "HERR-002",
+    "price_currency": "PEN",
+    "price": "120.00",
+    "num_in_stock": 10,
+    "num_allocated": 1,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:16:13.196Z",
+    "date_updated": "2026-11-12T20:16:13.196Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 7,
+  "fields": {
+    "product": 7,
+    "partner": 2,
+    "partner_sku": "CORTE-01",
+    "price_currency": "PEN",
+    "price": "25.00",
+    "num_in_stock": 999,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:01.076Z",
+    "date_updated": "2026-11-12T20:35:23.237Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 8,
+  "fields": {
+    "product": 8,
+    "partner": 2,
+    "partner_sku": "CORTE-02",
+    "price_currency": "PEN",
+    "price": "30.00",
+    "num_in_stock": 999,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:01.385Z",
+    "date_updated": "2026-11-12T20:35:23.429Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 9,
+  "fields": {
+    "product": 9,
+    "partner": 2,
+    "partner_sku": "CORTE-03",
+    "price_currency": "PEN",
+    "price": "45.00",
+    "num_in_stock": 999,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:01.603Z",
+    "date_updated": "2026-11-12T20:35:23.630Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 10,
+  "fields": {
+    "product": 10,
+    "partner": 2,
+    "partner_sku": "CORTE-04",
+    "price_currency": "PEN",
+    "price": "32.00",
+    "num_in_stock": 999,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:01.852Z",
+    "date_updated": "2026-11-12T20:35:24.138Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 11,
+  "fields": {
+    "product": 11,
+    "partner": 2,
+    "partner_sku": "CORTE-05",
+    "price_currency": "PEN",
+    "price": "20.00",
+    "num_in_stock": 999,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:02.342Z",
+    "date_updated": "2026-11-12T20:35:24.416Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 12,
+  "fields": {
+    "product": 1,
+    "partner": 2,
+    "partner_sku": "BARB-001",
+    "price_currency": "PEN",
+    "price": "45.00",
+    "num_in_stock": 25,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:02.562Z",
+    "date_updated": "2026-11-12T20:35:24.657Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 13,
+  "fields": {
+    "product": 2,
+    "partner": 2,
+    "partner_sku": "BARB-002",
+    "price_currency": "PEN",
+    "price": "52.00",
+    "num_in_stock": 20,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:02.783Z",
+    "date_updated": "2026-11-12T20:35:24.896Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 14,
+  "fields": {
+    "product": 3,
+    "partner": 2,
+    "partner_sku": "CAB-001",
+    "price_currency": "PEN",
+    "price": "38.00",
+    "num_in_stock": 40,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:03.015Z",
+    "date_updated": "2026-11-12T20:35:25.182Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 15,
+  "fields": {
+    "product": 4,
+    "partner": 2,
+    "partner_sku": "CAB-002",
+    "price_currency": "PEN",
+    "price": "42.00",
+    "num_in_stock": 30,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:03.287Z",
+    "date_updated": "2026-11-12T20:35:25.825Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 16,
+  "fields": {
+    "product": 5,
+    "partner": 2,
+    "partner_sku": "HERR-001",
+    "price_currency": "PEN",
+    "price": "65.00",
+    "num_in_stock": 15,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:03.768Z",
+    "date_updated": "2026-11-12T20:35:26.055Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 17,
+  "fields": {
+    "product": 6,
+    "partner": 2,
+    "partner_sku": "HERR-002",
+    "price_currency": "PEN",
+    "price": "120.00",
+    "num_in_stock": 10,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-12T20:25:04.063Z",
+    "date_updated": "2026-11-12T20:35:26.243Z"
+  }
+},
+{
+  "model": "partner.stockrecord",
+  "pk": 18,
+  "fields": {
+    "product": 12,
+    "partner": 3,
+    "partner_sku": "FER-B337C2",
+    "price_currency": "PEN",
+    "price": "60.00",
+    "num_in_stock": 10,
+    "num_allocated": null,
+    "low_stock_threshold": null,
+    "date_created": "2026-11-14T16:32:39.631Z",
+    "date_updated": "2026-11-14T16:32:39.631Z"
+  }
+},
+{
+  "model": "basket.basket",
+  "pk": 1,
+  "fields": {
+    "owner": [
+      "fourt"
+    ],
+    "status": "Submitted",
+    "date_created": "2026-11-12T20:12:10.975Z",
+    "date_merged": null,
+    "date_submitted": "2026-11-12T20:18:23.373Z",
+    "vouchers": []
+  }
+},
+{
+  "model": "basket.basket",
+  "pk": 2,
+  "fields": {
+    "owner": [
+      "fourt"
+    ],
+    "status": "Open",
+    "date_created": "2026-11-12T20:18:31.305Z",
+    "date_merged": null,
+    "date_submitted": null,
+    "vouchers": []
+  }
+},
+{
+  "model": "basket.basket",
+  "pk": 3,
+  "fields": {
+    "owner": null,
+    "status": "Merged",
+    "date_created": "2026-11-12T20:20:13.140Z",
+    "date_merged": "2026-11-12T21:02:13.733Z",
+    "date_submitted": null,
+    "vouchers": []
+  }
+},
+{
+  "model": "basket.basket",
+  "pk": 4,
+  "fields": {
+    "owner": [
+      "wT5L9wcy26t3C_Lda0dSk4KwiZyUvb"
+    ],
+    "status": "Open",
+    "date_created": "2026-11-12T21:17:19.461Z",
+    "date_merged": null,
+    "date_submitted": null,
+    "vouchers": []
+  }
+},
+{
+  "model": "basket.line",
+  "pk": 1,
+  "fields": {
+    "basket": 1,
+    "line_reference": "6_6",
+    "product": 6,
+    "stockrecord": 6,
+    "quantity": 1,
+    "price_currency": "PEN",
+    "price_excl_tax": "120.00",
+    "price_incl_tax": "120.00",
+    "tax_code": null,
+    "date_created": "2026-11-12T20:17:02.361Z",
+    "date_updated": "2026-11-12T20:17:02.361Z"
+  }
+},
+{
+  "model": "basket.line",
+  "pk": 2,
+  "fields": {
+    "basket": 2,
+    "line_reference": "6_6",
+    "product": 6,
+    "stockrecord": 6,
+    "quantity": 1,
+    "price_currency": "PEN",
+    "price_excl_tax": "120.00",
+    "price_incl_tax": "120.00",
+    "tax_code": null,
+    "date_created": "2026-11-12T20:20:13.165Z",
+    "date_updated": "2026-11-12T21:02:13.700Z"
+  }
+},
+{
+  "model": "basket.line",
+  "pk": 3,
+  "fields": {
+    "basket": 2,
+    "line_reference": "2_2",
+    "product": 2,
+    "stockrecord": 2,
+    "quantity": 1,
+    "price_currency": "PEN",
+    "price_excl_tax": "52.00",
+    "price_incl_tax": "52.00",
+    "tax_code": null,
+    "date_created": "2026-11-12T20:20:16.339Z",
+    "date_updated": "2026-11-12T21:02:13.718Z"
+  }
+},
+{
+  "model": "basket.line",
+  "pk": 5,
+  "fields": {
+    "basket": 4,
+    "line_reference": "5_5",
+    "product": 5,
+    "stockrecord": 5,
+    "quantity": 1,
+    "price_currency": "PEN",
+    "price_excl_tax": "65.00",
+    "price_incl_tax": "65.00",
+    "tax_code": null,
+    "date_created": "2026-11-14T16:19:43.425Z",
+    "date_updated": "2026-11-14T16:19:43.425Z"
+  }
+},
+{
+  "model": "basket.line",
+  "pk": 6,
+  "fields": {
+    "basket": 4,
+    "line_reference": "6_6",
+    "product": 6,
+    "stockrecord": 6,
+    "quantity": 1,
+    "price_currency": "PEN",
+    "price_excl_tax": "120.00",
+    "price_incl_tax": "120.00",
+    "tax_code": null,
+    "date_created": "2026-11-14T16:19:46.836Z",
+    "date_updated": "2026-11-14T16:19:46.836Z"
+  }
+},
+{
+  "model": "order.order",
+  "pk": 1,
+  "fields": {
+    "number": "100001",
+    "site": [
+      "127.0.0.1:8000"
+    ],
+    "basket": 1,
+    "user": [
+      "fourt"
+    ],
+    "billing_address": null,
+    "currency": "PEN",
+    "total_incl_tax": "120.00",
+    "total_excl_tax": "120.00",
+    "shipping_incl_tax": "0.00",
+    "shipping_excl_tax": "0.00",
+    "shipping_tax_code": null,
+    "shipping_address": 1,
+    "shipping_method": "Free shipping",
+    "shipping_code": "free-shipping",
+    "status": "Pending",
+    "guest_email": "",
+    "date_placed": "2026-11-12T20:18:23.195Z"
+  }
+},
+{
+  "model": "order.shippingaddress",
+  "pk": 1,
+  "fields": {
+    "title": "",
+    "first_name": "Andree",
+    "last_name": "Coyla",
+    "line1": "urb casa bella c15",
+    "line2": "Av. navarrete 903",
+    "line3": "urb casa bella c15",
+    "line4": "mollendo",
+    "state": "ISLAY",
+    "postcode": "04002",
+    "country": "PE",
+    "search_text": "Andree Coyla urb casa bella c15 Av. navarrete 903 urb casa bella c15 mollendo ISLAY 04002 Peru",
+    "phone_number": "+51963213014",
+    "notes": "fdc d"
+  }
+},
+{
+  "model": "order.line",
+  "pk": 1,
+  "fields": {
+    "order": 1,
+    "partner": 1,
+    "partner_name": "Almacén Central Barbería",
+    "partner_sku": "HERR-002",
+    "partner_line_reference": "",
+    "partner_line_notes": "",
+    "stockrecord": 6,
+    "product": 6,
+    "title": "Kit Tijeras de Corte y Entresacar 6.0 Pulgadas",
+    "upc": "HERR-002",
+    "quantity": 1,
+    "line_price_incl_tax": "120.00",
+    "line_price_excl_tax": "120.00",
+    "line_price_before_discounts_incl_tax": "120.00",
+    "line_price_before_discounts_excl_tax": "120.00",
+    "unit_price_incl_tax": "120.00",
+    "unit_price_excl_tax": "120.00",
+    "tax_code": null,
+    "status": "Pending",
+    "num_allocated": 1,
+    "allocation_cancelled": false
+  }
+},
+{
+  "model": "order.lineprice",
+  "pk": 1,
+  "fields": {
+    "order": 1,
+    "line": 1,
+    "quantity": 1,
+    "price_incl_tax": "120.00",
+    "price_excl_tax": "120.00",
+    "shipping_incl_tax": "0.00",
+    "shipping_excl_tax": "0.00",
+    "tax_code": null
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||13f8bfba2110bde89a6c51dd27fa222b",
+  "fields": {
+    "value": "{\"name\": \"images/products/2026/11/american-crew-beard-balm-60-gr.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [800, 800]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||4e34939757761c29ddb4700c71de503a",
+  "fields": {
+    "value": "{\"name\": \"cache/d5/43/d543b3d7f303ea319c10e64bece3e4e3.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [247, 155]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||5fe3f537d06c3bfce78bfe1ebc049e4d",
+  "fields": {
+    "value": "{\"name\": \"images/products/2026/11/61XTDvHUNXL._AC_UF8941000_QL80_.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [894, 560]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||62dbb982387693f0b27f9e96faa4c01c",
+  "fields": {
+    "value": "{\"name\": \"images/products/2026/11/Captura_de_pantalla_2026-11-14_114600.png\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [571, 569]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||695db12a29ccc97c88e0d68fc8065fa5",
+  "fields": {
+    "value": "{\"name\": \"images/products/2026/11/images_2.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [447, 447]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||6bcca04e4e436e67e4b2878bbd1abc7e",
+  "fields": {
+    "value": "{\"name\": \"cache/73/6f/736fcdc0fc716a886fdcf25af4b777c1.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [85, 100]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||6cc4dcce59bd099dbb97f877f172a071",
+  "fields": {
+    "value": "{\"name\": \"cache/3d/7c/3d7c97bfba3419ae8a0f4833beb738f1.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [100, 100]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||6f4f6e4ff67b29b862e03cc758972899",
+  "fields": {
+    "value": "{\"name\": \"cache/f3/90/f390b46a7a57c7171e16615501258e45.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [131, 155]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||747c9d651390c84c6104c5bd3be1b635",
+  "fields": {
+    "value": "{\"name\": \"cache/a0/6f/a06faeea5b5346f05ae247bc6efee045.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [111, 155]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||9a6014970b7a4c4678dd0906538fdee0",
+  "fields": {
+    "value": "{\"name\": \"cache/c5/88/c58827fd054e6781a571445422357fd6.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [155, 155]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||b7a0820f4811f160e2ace2fb76c905a3",
+  "fields": {
+    "value": "{\"name\": \"images/products/2026/11/Captura_de_pantalla_2026-11-14_114339.png\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [315, 440]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||b95692971f4324f903ca14d805eb3635",
+  "fields": {
+    "value": "{\"name\": \"cache/27/98/27989b01e0e365a4295658764bd8a9ff.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [156, 155]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||d0fc45812b960a573ad2af5f365ef8b2",
+  "fields": {
+    "value": "{\"name\": \"images/products/2026/11/images_1.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [411, 486]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||e1964be13a3ab979ba9a1aace8e2ec58",
+  "fields": {
+    "value": "{\"name\": \"cache/48/dc/48dc27a52092dd06d541fe8a3e249e66.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [155, 155]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||ec927f3b385ff6bafb6be9df7f8ce852",
+  "fields": {
+    "value": "{\"name\": \"images/products/2026/11/images.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [447, 447]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||image||ef56b0ec33a7efd766dc41ae54c5186d",
+  "fields": {
+    "value": "{\"name\": \"cache/9f/a9/9fa999091676030bfd1833142bb20ddf.jpg\", \"storage\": \"django.core.files.storage.filesystem.FileSystemStorage\", \"size\": [155, 155]}"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||thumbnails||13f8bfba2110bde89a6c51dd27fa222b",
+  "fields": {
+    "value": "[\"e1964be13a3ab979ba9a1aace8e2ec58\"]"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||thumbnails||5fe3f537d06c3bfce78bfe1ebc049e4d",
+  "fields": {
+    "value": "[\"4e34939757761c29ddb4700c71de503a\"]"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||thumbnails||62dbb982387693f0b27f9e96faa4c01c",
+  "fields": {
+    "value": "[\"b95692971f4324f903ca14d805eb3635\"]"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||thumbnails||695db12a29ccc97c88e0d68fc8065fa5",
+  "fields": {
+    "value": "[\"ef56b0ec33a7efd766dc41ae54c5186d\", \"6cc4dcce59bd099dbb97f877f172a071\"]"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||thumbnails||b7a0820f4811f160e2ace2fb76c905a3",
+  "fields": {
+    "value": "[\"747c9d651390c84c6104c5bd3be1b635\"]"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||thumbnails||d0fc45812b960a573ad2af5f365ef8b2",
+  "fields": {
+    "value": "[\"6f4f6e4ff67b29b862e03cc758972899\", \"6bcca04e4e436e67e4b2878bbd1abc7e\"]"
+  }
+},
+{
+  "model": "thumbnail.kvstore",
+  "pk": "oscar-sandbox||thumbnails||ec927f3b385ff6bafb6be9df7f8ce852",
+  "fields": {
+    "value": "[\"9a6014970b7a4c4678dd0906538fdee0\"]"
+  }
+},
+{
+  "model": "citas_app.cita",
+  "pk": 1,
+  "fields": {
+    "nombre": "Andree Coyla",
+    "telefono": "963213014",
+    "fecha": "2026-11-14",
+    "hora": "10:00 PM",
+    "servicio": "Degradado / Fade (Low, Mid o High)",
+    "precio_total": "30.00",
+    "adelanto_pagado": "15.00",
+    "saldo_pendiente": "15.00",
+    "metodo_pago": "Yape",
+    "codigo_operacion": "96321",
+    "estado": "50% Pagado",
+    "hora_inicio_real": null
+  }
+},
+{
+  "model": "citas_app.cita",
+  "pk": 2,
+  "fields": {
+    "nombre": "andres coyla",
+    "telefono": "963213015",
+    "fecha": "2026-11-14",
+    "hora": "04:00 PM",
+    "servicio": "Mullet / Taper Fade Moderno",
+    "precio_total": "32.00",
+    "adelanto_pagado": "16.00",
+    "saldo_pendiente": "16.00",
+    "metodo_pago": "Yape",
+    "codigo_operacion": "91911",
+    "estado": "50% Pagado",
+    "hora_inicio_real": null
+  }
+},
+{
+  "model": "citas_app.cita",
+  "pk": 3,
+  "fields": {
+    "nombre": "crsitle",
+    "telefono": "963123016",
+    "fecha": "2026-11-14",
+    "hora": "06:00 PM",
+    "servicio": "Degradado / Fade (Low, Mid o High)",
+    "precio_total": "30.00",
+    "adelanto_pagado": "15.00",
+    "saldo_pendiente": "15.00",
+    "metodo_pago": "Yape",
+    "codigo_operacion": "9191",
+    "estado": "50% Pagado",
+    "hora_inicio_real": null
+  }
+},
+{
+  "model": "citas_app.cita",
+  "pk": 4,
+  "fields": {
+    "nombre": "Cristel Villegas",
+    "telefono": "963213017",
+    "fecha": "2026-11-14",
+    "hora": "12:00 PM",
+    "servicio": "Corte + Perfilado de Barba con Toalla Caliente",
+    "precio_total": "45.00",
+    "adelanto_pagado": "22.50",
+    "saldo_pendiente": "22.50",
+    "metodo_pago": "Yape",
+    "codigo_operacion": "96321",
+    "estado": "Libre (+15m Tolerancia)",
+    "hora_inicio_real": null
+  }
+}
+]

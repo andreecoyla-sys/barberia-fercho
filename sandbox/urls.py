@@ -9,7 +9,6 @@ from django.urls import include, path
 from oscar.views import handler403, handler404, handler500
 from citas import vista_reservar_cita, vista_panel_barbero
 from apps.sitemaps import base_sitemaps
-from citas import vista_reservar_cita
 
 admin.autodiscover()
 
@@ -19,17 +18,17 @@ urlpatterns = [
     path('sitemap.xml', views.index, {'sitemaps': base_sitemaps}),
     path('sitemap-<slug:section>.xml', views.sitemap, {'sitemaps': base_sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
-    # Ruta directa de citas sin prefijo de idioma
+    # Ruta directa de citas y panel sin prefijo de idioma
     path('citas/', vista_reservar_cita, name='reservar_cita'),
+    path('panel-barbero/', vista_panel_barbero, name='panel_barbero_directo'),
 ]
 
 # Rutas con prefijo de idioma (/es/, /en-gb/) - Priorizamos Citas en la página principal
 urlpatterns += i18n_patterns(
     path('', vista_reservar_cita, name='home_citas'),
     path('citas/', vista_reservar_cita, name='reservar_cita_i18n'),
-    path('', include(apps.get_app_config('oscar').urls[0])),
-    path('citas/', vista_reservar_cita, name='reservar_cita'),
     path('panel-barbero/', vista_panel_barbero, name='panel_barbero'),
+    path('', include(apps.get_app_config('oscar').urls[0])),
 )
 
 if settings.DEBUG:

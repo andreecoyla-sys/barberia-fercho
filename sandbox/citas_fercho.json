@@ -1,0 +1,30 @@
+[
+  {
+    "nombre": "Andree",
+    "telefono": "963213014",
+    "fecha": "2026-11-12",
+    "hora": "03:30 PM",
+    "servicio": "Degradado / Fade (PEN 30.00)",
+    "id": "CITA-100",
+    "precio_total": "30.00",
+    "adelanto_pagado": "15.00",
+    "saldo_pendiente": "15.00",
+    "metodo_pago": "Yape",
+    "codigo_operacion": "VERIFICADO",
+    "estado": "Libre (+15m Tolerancia)"
+  },
+  {
+    "nombre": "Andree Coyla",
+    "telefono": "963213014",
+    "fecha": "2026-11-12",
+    "hora": "04:00 PM",
+    "servicio": "Degradado / Fade (PEN 30.00)",
+    "id": "CITA-101",
+    "precio_total": "30.00",
+    "adelanto_pagado": "15.00",
+    "saldo_pendiente": "15.00",
+    "metodo_pago": "Yape",
+    "codigo_operacion": "VERIFICADO",
+    "estado": "Libre (+15m Tolerancia)"
+  }
+]

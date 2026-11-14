@@ -1,31 +1,31 @@
 import os
 import environ
 import oscar
-
-env = environ.Env()
+from dotenv import load_dotenv
+import dj_database_url
 
 # Path helper
 location = lambda x: os.path.join(
     os.path.dirname(os.path.realpath(__file__)), x)
 
+# Carga variables secretas desde .env.local (como DATABASE_URL de Neon)
+load_dotenv(location('.env.local'))
+
+env = environ.Env()
+
 DEBUG = env.bool('DEBUG', default=True)
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '*'])
 
 EMAIL_SUBJECT_PREFIX = '[Barberia Ecommerce] '
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Use a Sqlite database by default
 DATABASES = {
-    'default': {
-        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.environ.get('DATABASE_NAME', location('db.sqlite')),
-        'USER': os.environ.get('DATABASE_USER', None),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', None),
-        'HOST': os.environ.get('DATABASE_HOST', None),
-        'PORT': os.environ.get('DATABASE_PORT', None),
-        'ATOMIC_REQUESTS': True
-    }
+    'default': dj_database_url.config(
+        default=f"sqlite:///{location('db.sqlite')}",
+        conn_max_age=600,
+        ssl_require=bool(os.environ.get('DATABASE_URL'))
+    )
 }
 
 CACHES = {
@@ -74,7 +74,11 @@ MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = location('public/static')
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedStaticFilesStorage'
+    if not DEBUG else
+    'django.contrib.staticfiles.storage.StaticFilesStorage'
+)
 STATICFILES_DIRS = (
     location('static/'),
 )
@@ -263,6 +267,9 @@ INSTALLED_APPS = [
     # 3rd-party apps that the sandbox depends on
     'django_extensions',
     'debug_toolbar',
+
+    # Apps locales
+    'citas_app',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -337,10 +344,25 @@ THUMBNAIL_REDIS_URL = env('THUMBNAIL_REDIS_URL', default=None)
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
+# Seguridad HTTPS y Proxy para Producción Real
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=False)
 SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS', default=0)
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com',
+    'https://*.railway.app',
+    'https://*.koyeb.app',
+    'https://*.fly.dev',
+    'https://*.pinggy.link',
+    'https://*.a.free.pinggy.link',
+    'https://*.free.pinggy.net',
+    'https://*.run.pinggy-free.link',
+    'https://*.ngrok-free.app',
+    'https://*.trycloudflare.com',
+]
 
 try:
     from settings_local import *
