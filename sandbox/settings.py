@@ -352,6 +352,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 
 CSRF_TRUSTED_ORIGINS = [
+    'https://barberfercho.site',
+    'https://www.barberfercho.site',
     'https://*.onrender.com',
     'https://*.railway.app',
     'https://*.koyeb.app',
@@ -362,6 +364,9 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*.run.pinggy-free.link',
     'https://*.ngrok-free.app',
     'https://*.trycloudflare.com',
+    'https://barberfercho.site',
+    'https://www.barberfercho.site',
+    'https://*.onrender.com',
 ]
 
 try:
