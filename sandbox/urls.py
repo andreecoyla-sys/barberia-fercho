@@ -7,8 +7,10 @@ from django.contrib import admin
 from django.contrib.sitemaps import views
 from django.urls import include, path
 from oscar.views import handler403, handler404, handler500
-from citas import vista_reservar_cita, vista_panel_barbero
+
 from apps.sitemaps import base_sitemaps
+from citas import vista_panel_barbero, vista_reservar_cita
+from mercadopago_checkout import MercadoPagoRetornoView, crear_preferencia_mp
 
 admin.autodiscover()
 
@@ -21,6 +23,10 @@ urlpatterns = [
     # Ruta directa de citas y panel sin prefijo de idioma
     path('citas/', vista_reservar_cita, name='reservar_cita'),
     path('panel-barbero/', vista_panel_barbero, name='panel_barbero_directo'),
+
+    # Pasarela de pagos Mercado Pago (100% y 50% adelanto)
+    path('checkout/mercadopago/pagar/', crear_preferencia_mp, name='mp_pagar'),
+    path('checkout/mercadopago/retorno/', MercadoPagoRetornoView.as_view(), name='mp_retorno'),
 ]
 
 # Rutas con prefijo de idioma (/es/, /en-gb/) - Priorizamos Citas en la página principal

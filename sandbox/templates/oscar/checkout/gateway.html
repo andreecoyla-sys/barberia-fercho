@@ -1,0 +1,322 @@
+{% extends "oscar/checkout/layout.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "Identificación de cliente" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'oscar/checkout/nav.html' with step=0 %}
+{% endblock %}
+
+{% block checkout_title %}{% endblock %}
+
+{% block content %}
+<style>
+    .fercho-gateway-card {
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+        border: 1px solid #ececec;
+        padding: 32px;
+        max-width: 680px;
+        margin: 20px auto 40px auto;
+    }
+    .fercho-gateway-header {
+        text-align: center;
+        margin-bottom: 26px;
+    }
+    .fercho-gateway-header h2 {
+        font-weight: 800;
+        color: #1c1a17;
+        margin-bottom: 6px;
+        font-size: 1.75rem;
+    }
+    .fercho-gateway-header p {
+        color: #6c757d;
+        font-size: 0.95rem;
+        margin: 0;
+    }
+    .fercho-email-box {
+        margin-bottom: 24px;
+    }
+    .fercho-email-box label {
+        font-weight: 700;
+        color: #2b2620;
+        margin-bottom: 8px;
+        display: block;
+    }
+    .fercho-input {
+        width: 100%;
+        padding: 13px 16px;
+        border: 2px solid #e2e5e9;
+        border-radius: 10px;
+        font-size: 16px;
+        transition: all 0.25s ease;
+        box-sizing: border-box;
+    }
+    .fercho-input:focus {
+        border-color: #c59d5f;
+        box-shadow: 0 0 0 4px rgba(197, 157, 95, 0.15);
+        outline: none;
+    }
+    .fercho-option-card {
+        border: 2px solid #e9ecef;
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-bottom: 14px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        background: #fafafa;
+    }
+    .fercho-option-card:hover {
+        border-color: #d8be94;
+        background: #fffdf9;
+    }
+    .fercho-option-card.active {
+        border-color: #c59d5f;
+        background: #fdf9f2;
+        box-shadow: 0 6px 18px rgba(197, 157, 95, 0.14);
+    }
+    .fercho-option-top {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .fercho-option-top input[type="radio"] {
+        accent-color: #c59d5f;
+        width: 19px;
+        height: 19px;
+        cursor: pointer;
+        margin: 0;
+    }
+    .fercho-option-title {
+        font-weight: 700;
+        color: #1f1d1a;
+        font-size: 1.02rem;
+    }
+    .fercho-option-desc {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-left: 31px;
+        margin-top: 3px;
+    }
+    .fercho-password-drawer {
+        margin-top: 14px;
+        margin-left: 31px;
+        padding-top: 12px;
+        border-top: 1px dashed #e0d6c5;
+        display: none;
+        animation: fadeInSlide 0.25s ease;
+    }
+    .fercho-option-card.active .fercho-password-drawer {
+        display: block;
+    }
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        max-width: 340px;
+    }
+    .toggle-pass-btn {
+        position: absolute;
+        right: 12px;
+        background: none;
+        border: none;
+        color: #777;
+        cursor: pointer;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    .fercho-submit-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #d4af6a 0%, #b5893e 100%);
+        color: #1a1612;
+        font-weight: 800;
+        font-size: 1.08rem;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
+        margin-top: 18px;
+        cursor: pointer;
+        letter-spacing: 0.4px;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 6px 20px rgba(181, 137, 62, 0.35);
+    }
+    .fercho-submit-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(181, 137, 62, 0.45);
+    }
+    .fercho-back-link {
+        display: block;
+        text-align: center;
+        margin-top: 14px;
+        color: #6c665f;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.92rem;
+    }
+    .fercho-back-link:hover {
+        color: #181614;
+    }
+    .fercho-alert-error {
+        background: #fff2f2;
+        border-left: 4px solid #dc3545;
+        color: #a71d2a;
+        padding: 12px 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        font-size: 0.92rem;
+    }
+    @keyframes fadeInSlide {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+        .fercho-gateway-card { padding: 22px 16px; margin: 15px 12px 30px 12px; }
+        .fercho-password-drawer { margin-left: 0; }
+    }
+</style>
+
+<div class="fercho-gateway-card">
+    <div class="fercho-gateway-header">
+        <h2>✂️ Finalizar Pedido</h2>
+        <p>Ingresa tu correo y elige cómo deseas continuar con tu compra</p>
+    </div>
+
+    {% if form.non_field_errors %}
+        <div class="fercho-alert-error">
+            {% for error in form.non_field_errors %}
+                <div>⚠️ {{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="{{ request.path }}" method="post" id="fercho_gateway_form">
+        {% csrf_token %}
+
+        <div class="fercho-email-box">
+            <label for="id_username">📧 Tu correo electrónico</label>
+            <input type="email"
+                   name="username"
+                   id="id_username"
+                   class="fercho-input"
+                   placeholder="ejemplo@correo.com"
+                   value="{{ form.username.value|default:'' }}"
+                   required>
+            {% if form.username.errors %}
+                <small class="text-danger">{{ form.username.errors.0 }}</small>
+            {% endif %}
+        </div>
+
+        <div class="fercho-option-card" data-choice="anonymous">
+            <div class="fercho-option-top">
+                <input type="radio" name="options" id="opt_anonymous" value="anonymous"
+                       {% if form.options.value == 'anonymous' or not form.options.value %}checked{% endif %}>
+                <span class="fercho-option-title">⚡ Compra rápida sin registrarme</span>
+            </div>
+            <div class="fercho-option-desc">
+                Ideal si solo quieres pedir tus productos al instante sin crear contraseñas.
+            </div>
+        </div>
+
+        <div class="fercho-option-card" data-choice="existing">
+            <div class="fercho-option-top">
+                <input type="radio" name="options" id="opt_existing" value="existing"
+                       {% if form.options.value == 'existing' %}checked{% endif %}>
+                <span class="fercho-option-title">🔑 Ya tengo cuenta en Barbería Fercho</span>
+            </div>
+            <div class="fercho-option-desc">
+                Inicia sesión para usar tus datos guardados y ver tu historial.
+            </div>
+
+            <div class="fercho-password-drawer">
+                <div class="password-wrapper">
+                    <input type="password"
+                           name="password"
+                           id="id_password"
+                           class="fercho-input"
+                           placeholder="Escribe tu contraseña">
+                    <button type="button" class="toggle-pass-btn" id="togglePassBtn">Ver</button>
+                </div>
+                {% if form.password.errors %}
+                    <small class="text-danger d-block mt-1">{{ form.password.errors.0 }}</small>
+                {% endif %}
+                <div class="mt-2">
+                    <a href="{% url 'password-reset' %}" style="color: #b5893e; font-size: 0.85rem; font-weight: 600;">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="fercho-option-card" data-choice="new">
+            <div class="fercho-option-top">
+                <input type="radio" name="options" id="opt_new" value="new"
+                       {% if form.options.value == 'new' %}checked{% endif %}>
+                <span class="fercho-option-title">✨ Soy cliente nuevo y quiero crear una cuenta</span>
+            </div>
+            <div class="fercho-option-desc">
+                Guarda tus direcciones y acumula historial para futuras compras.
+            </div>
+        </div>
+
+        <button type="submit" class="fercho-submit-btn">
+            Continuar con el pedido →
+        </button>
+
+        <a href="{% url 'basket:summary' %}" class="fercho-back-link">
+            ← Volver al carrito
+        </a>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll(".fercho-option-card");
+    const passInput = document.getElementById("id_password");
+    const toggleBtn = document.getElementById("togglePassBtn");
+
+    function updateCards() {
+        cards.forEach(card => {
+            const radio = card.querySelector('input[type="radio"]');
+            if (radio.checked) {
+                card.classList.add("active");
+                if (radio.value === "existing" && passInput) {
+                    setTimeout(() => passInput.focus(), 100);
+                }
+            } else {
+                card.classList.remove("active");
+            }
+        });
+    }
+
+    cards.forEach(card => {
+        card.addEventListener("click", function (e) {
+            if (e.target.tagName === "INPUT" || e.target.tagName === "BUTTON" || e.target.tagName === "A") {
+                updateCards();
+                return;
+            }
+            const radio = card.querySelector('input[type="radio"]');
+            radio.checked = true;
+            updateCards();
+        });
+    });
+
+    if (toggleBtn && passInput) {
+        toggleBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            if (passInput.type === "password") {
+                passInput.type = "text";
+                toggleBtn.textContent = "Ocultar";
+            } else {
+                passInput.type = "password";
+                toggleBtn.textContent = "Ver";
+            }
+        });
+    }
+
+    updateCards();
+});
+</script>
+{% endblock content %}

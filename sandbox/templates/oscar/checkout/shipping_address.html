@@ -1,0 +1,687 @@
+{% extends "oscar/checkout/layout.html" %}
+{% load i18n %}
+{% load currency_filters %}
+{% load image_tags %}
+
+{% block title %}
+    {% trans "Entrega o Recojo" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'oscar/checkout/nav.html' with step=1 %}
+{% endblock %}
+
+{% block checkout_title %}{% endblock %}
+
+{% block content %}
+<style>
+    .fercho-checkout-grid {
+        display: grid;
+        grid-template-columns: 1.65fr 1fr;
+        gap: 32px;
+        max-width: 1140px;
+        margin: 25px auto 50px auto;
+        padding: 0 15px;
+        align-items: start;
+    }
+    .fercho-shipping-box {
+        background: #ffffff;
+        border-radius: 14px;
+        padding: 32px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+        border: 1px solid #ececec;
+    }
+    .fercho-section-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        border-bottom: 2px solid #c59d5f;
+        padding-bottom: 12px;
+        margin-bottom: 22px;
+    }
+    .fercho-section-heading h2 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #181614;
+        margin: 0;
+        letter-spacing: -0.3px;
+    }
+    .fercho-secure-badge {
+        font-size: 0.84rem;
+        color: #2e6f40;
+        font-weight: 700;
+    }
+    .delivery-mode-selector {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+    .delivery-mode-card {
+        border: 2px solid #e5e2dc;
+        border-radius: 12px;
+        padding: 16px;
+        cursor: pointer;
+        background: #fafafa;
+        transition: all 0.25s ease;
+        position: relative;
+    }
+    .delivery-mode-card:hover {
+        border-color: #d6ba8a;
+        background: #fffdf9;
+    }
+    .delivery-mode-card.active {
+        border-color: #c59d5f;
+        background: #fdf8ef;
+        box-shadow: 0 6px 18px rgba(197, 157, 95, 0.16);
+    }
+    .delivery-mode-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 4px;
+    }
+    .delivery-mode-title {
+        font-weight: 800;
+        font-size: 1rem;
+        color: #1c1a17;
+    }
+    .delivery-badge-free {
+        background: #2e6f40;
+        color: #ffffff;
+        font-size: 0.72rem;
+        font-weight: 800;
+        padding: 3px 8px;
+        border-radius: 20px;
+        text-transform: uppercase;
+    }
+    .delivery-mode-sub {
+        font-size: 0.82rem;
+        color: #6c665f;
+        line-height: 1.3;
+    }
+    .pickup-info-banner {
+        display: none;
+        background: #1c1a17;
+        color: #f5efe6;
+        border-left: 4px solid #c59d5f;
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin-bottom: 20px;
+        animation: fadeIn 0.25s ease;
+    }
+    .pickup-info-banner.visible {
+        display: block;
+    }
+    .pickup-info-banner h4 {
+        color: #f3d59b;
+        font-size: 1rem;
+        font-weight: 800;
+        margin: 0 0 6px 0;
+    }
+    .pickup-info-banner p {
+        font-size: 0.88rem;
+        margin: 0;
+        color: #d6cfc5;
+        line-height: 1.45;
+    }
+    .fercho-row-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+        margin-bottom: 18px;
+    }
+    .fercho-row-3 {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 0.8fr;
+        gap: 16px;
+        margin-bottom: 18px;
+    }
+    .fercho-field-group {
+        margin-bottom: 18px;
+    }
+    .fercho-row-2 .fercho-field-group,
+    .fercho-row-3 .fercho-field-group {
+        margin-bottom: 0;
+    }
+    .fercho-field-group label {
+        display: block;
+        font-size: 0.86rem;
+        font-weight: 700;
+        color: #2b2723;
+        margin-bottom: 6px;
+    }
+    .fercho-field-group label span.req {
+        color: #c59d5f;
+    }
+    .fercho-shipping-box input[type="text"],
+    .fercho-shipping-box input[type="tel"],
+    .fercho-shipping-box select,
+    .fercho-shipping-box textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1.5px solid #dcdcdc;
+        border-bottom: 2px solid #2b2723;
+        border-radius: 8px 8px 4px 4px;
+        font-size: 16px;
+        color: #1a1816;
+        background: #fcfcfc;
+        transition: all 0.2s ease;
+        box-sizing: border-box;
+    }
+    .fercho-shipping-box input:focus,
+    .fercho-shipping-box select:focus,
+    .fercho-shipping-box textarea:focus {
+        border-color: #c59d5f;
+        border-bottom-color: #b5893e;
+        background: #ffffff;
+        box-shadow: 0 4px 12px rgba(197, 157, 95, 0.14);
+        outline: none;
+    }
+    .fercho-help-text {
+        font-size: 0.8rem;
+        color: #777;
+        margin-top: 4px;
+        display: block;
+    }
+    .fercho-error-msg {
+        color: #dc3545;
+        font-size: 0.82rem;
+        font-weight: 600;
+        margin-top: 4px;
+    }
+    .saved-addresses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 14px;
+        margin-bottom: 26px;
+    }
+    .saved-address-card {
+        border: 1.5px solid #e0d6c5;
+        background: #fdf9f2;
+        border-radius: 10px;
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .saved-address-card address {
+        font-size: 0.9rem;
+        color: #333;
+        margin-bottom: 12px;
+        line-height: 1.4;
+    }
+    .btn-use-saved {
+        background: #1f1d1a;
+        color: #f3d59b;
+        border: none;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        width: 100%;
+        cursor: pointer;
+    }
+    .fercho-btn-continue {
+        background: linear-gradient(135deg, #d4af6a 0%, #b5893e 100%);
+        color: #161412;
+        font-weight: 800;
+        font-size: 1.05rem;
+        padding: 16px 24px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 12px;
+        box-shadow: 0 6px 18px rgba(181, 137, 62, 0.32);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .fercho-btn-continue:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px rgba(181, 137, 62, 0.45);
+    }
+    .fercho-back-link {
+        display: block;
+        text-align: center;
+        margin-top: 14px;
+        color: #6c665f;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.92rem;
+    }
+    .fercho-back-link:hover {
+        color: #181614;
+    }
+    .fercho-summary-card {
+        background: #f8f6f2;
+        border: 1px solid #e6dfd3;
+        border-radius: 14px;
+        padding: 24px;
+        position: sticky;
+        top: 20px;
+    }
+    .fercho-mobile-toggle {
+        display: none;
+    }
+    .fercho-summary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1.5px solid #dfd7c8;
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+    }
+    .fercho-summary-header h3 {
+        font-size: 1.08rem;
+        font-weight: 800;
+        color: #1c1a17;
+        margin: 0;
+        text-transform: uppercase;
+    }
+    .fercho-edit-basket {
+        font-size: 0.85rem;
+        color: #9e732b;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+    .fercho-basket-item {
+        display: flex;
+        gap: 12px;
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+        border-bottom: 1px solid #e8e2d7;
+    }
+    .fercho-basket-thumb {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #fff;
+        border: 1px solid #e2e2e2;
+        flex-shrink: 0;
+    }
+    .fercho-basket-info {
+        flex: 1;
+        min-width: 0;
+    }
+    .fercho-basket-title {
+        font-weight: 700;
+        font-size: 0.92rem;
+        color: #1f1d1a;
+        line-height: 1.25;
+        margin-bottom: 4px;
+    }
+    .fercho-basket-meta {
+        font-size: 0.82rem;
+        color: #6c665f;
+    }
+    .fercho-basket-price {
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: #1f1d1a;
+        margin-top: 3px;
+    }
+    .fercho-totals-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.94rem;
+        color: #4a453f;
+        margin-bottom: 10px;
+    }
+    .fercho-totals-final {
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.22rem;
+        font-weight: 900;
+        color: #141210;
+        border-top: 2px solid #c59d5f;
+        padding-top: 14px;
+        margin-top: 12px;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-4px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 900px) {
+        .fercho-checkout-grid {
+            grid-template-columns: 1fr;
+            gap: 18px;
+            margin-top: 15px;
+            padding: 0 12px;
+        }
+        .fercho-summary-card {
+            order: -1;
+            position: static;
+            padding: 16px;
+        }
+        .fercho-mobile-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 0;
+            font-weight: 800;
+            font-size: 0.98rem;
+            color: #1c1a17;
+            cursor: pointer;
+        }
+        .fercho-summary-body {
+            display: none;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #dfd7c8;
+        }
+        .fercho-summary-card.open .fercho-summary-body {
+            display: block;
+        }
+        .fercho-shipping-box {
+            padding: 20px 16px;
+        }
+        .delivery-mode-selector {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .fercho-row-2, .fercho-row-3 {
+            grid-template-columns: 1fr;
+            gap: 14px;
+        }
+    }
+</style>
+
+<div class="fercho-checkout-grid">
+    <div class="fercho-shipping-box">
+        <div class="fercho-section-heading">
+            <h2>1. ENTREGA O RECOJO</h2>
+            <span class="fercho-secure-badge">🔒 Pedido seguro</span>
+        </div>
+
+        <div class="delivery-mode-selector">
+            <div class="delivery-mode-card active" id="cardModeDelivery" onclick="setDeliveryMode('delivery')">
+                <div class="delivery-mode-header">
+                    <span class="delivery-mode-title">🚚 Envío a domicilio</span>
+                </div>
+                <div class="delivery-mode-sub">Recibe tus productos directo en la puerta de tu casa u oficina.</div>
+            </div>
+
+            <div class="delivery-mode-card" id="cardModePickup" onclick="setDeliveryMode('pickup')">
+                <div class="delivery-mode-header">
+                    <span class="delivery-mode-title">💈 Recojo en Barbería</span>
+                    <span class="delivery-badge-free">Gratis</span>
+                </div>
+                <div class="delivery-mode-sub">Retira tu pedido en el local de Barbería Fercho sin costo de envío.</div>
+            </div>
+        </div>
+
+        <div class="pickup-info-banner" id="pickupInfoBanner">
+            <h4>📍 Punto de recojo: Barbería Fercho</h4>
+            <p>
+                Tu pedido estará listo para recoger en nuestro local. Solo completa tu <strong>nombre y teléfono/WhatsApp</strong> abajo para avisarte apenas esté preparado.
+            </p>
+        </div>
+
+        {% if user.is_authenticated and addresses %}
+            <div id="savedAddressesSection">
+                <h5 style="font-weight: 700; margin-bottom: 12px; color: #333;">Selecciona una dirección guardada</h5>
+                <div class="saved-addresses-grid">
+                    {% for address in addresses %}
+                        <div class="saved-address-card">
+                            <address>
+                                {% for field in address.active_address_fields %}
+                                    {{ field }}<br/>
+                                {% endfor %}
+                            </address>
+                            <form action="{% url 'checkout:shipping-address' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="action" value="ship_to" />
+                                <input type="hidden" name="address_id" value="{{ address.id }}" />
+                                <button type="submit" class="btn-use-saved">Enviar a esta dirección</button>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr style="margin: 24px 0;">
+            </div>
+        {% endif %}
+
+        <form action="{% url 'checkout:shipping-address' %}" method="post" id="new_shipping_address">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <div class="fercho-row-2">
+                <div class="fercho-field-group">
+                    <label for="{{ form.first_name.id_for_label }}">Nombre <span class="req">*</span></label>
+                    {{ form.first_name }}
+                    {% for err in form.first_name.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                </div>
+                <div class="fercho-field-group">
+                    <label for="{{ form.last_name.id_for_label }}">Apellidos <span class="req">*</span></label>
+                    {{ form.last_name }}
+                    {% for err in form.last_name.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                </div>
+            </div>
+
+            <div class="fercho-field-group">
+                <label for="{{ form.phone_number.id_for_label }}">Teléfono / WhatsApp de contacto <span class="req">*</span></label>
+                {{ form.phone_number }}
+                <span class="fercho-help-text" id="phoneHelpText">Ej: 987 654 321 (Para coordinar la entrega de tu pedido)</span>
+                {% for err in form.phone_number.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+            </div>
+
+            <div id="homeDeliveryFields">
+                <div class="fercho-field-group">
+                    <label for="{{ form.line1.id_for_label }}">Dirección (Calle, Av., Jr. y número) <span class="req">*</span></label>
+                    {{ form.line1 }}
+                    {% for err in form.line1.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                </div>
+
+                <div class="fercho-row-2">
+                    <div class="fercho-field-group">
+                        <label for="{{ form.line2.id_for_label }}">Urbanización / Dpto. / Interior</label>
+                        {{ form.line2 }}
+                        {% for err in form.line2.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                    </div>
+                    <div class="fercho-field-group">
+                        <label for="{{ form.line3.id_for_label }}">Distrito / Sector</label>
+                        {{ form.line3 }}
+                        {% for err in form.line3.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                    </div>
+                </div>
+
+                <div class="fercho-row-3">
+                    <div class="fercho-field-group">
+                        <label for="{{ form.line4.id_for_label }}">Ciudad / Provincia <span class="req">*</span></label>
+                        {{ form.line4 }}
+                        {% for err in form.line4.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                    </div>
+                    <div class="fercho-field-group">
+                        <label for="{{ form.state.id_for_label }}">Departamento / Región</label>
+                        {{ form.state }}
+                        {% for err in form.state.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                    </div>
+                    <div class="fercho-field-group">
+                        <label for="{{ form.postcode.id_for_label }}">Código Postal</label>
+                        {{ form.postcode }}
+                        {% for err in form.postcode.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                    </div>
+                </div>
+
+                {% if form.country %}
+                <div class="fercho-field-group">
+                    <label for="{{ form.country.id_for_label }}">País <span class="req">*</span></label>
+                    {{ form.country }}
+                    {% for err in form.country.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="fercho-field-group">
+                <label for="{{ form.notes.id_for_label }}" id="notesLabel">Referencia o instrucciones para el repartidor</label>
+                {{ form.notes }}
+                {% for err in form.notes.errors %}<div class="fercho-error-msg">{{ err }}</div>{% endfor %}
+            </div>
+
+            <button type="submit" class="fercho-btn-continue" id="submitShippingBtn">
+                Continuar al método de envío →
+            </button>
+
+            <a href="{% url 'basket:summary' %}" class="fercho-back-link">
+                ← Volver al carrito
+            </a>
+        </form>
+    </div>
+
+    <aside class="fercho-summary-card" id="ferchoSummaryCard">
+        <button type="button" class="fercho-mobile-toggle" onclick="document.getElementById('ferchoSummaryCard').classList.toggle('open')">
+            <span>🛒 Ver resumen del pedido ({{ basket.num_items }})</span>
+            <span style="color: #9e732b;">{{ basket.total_incl_tax|currency:basket.currency }} ▾</span>
+        </button>
+
+        <div class="fercho-summary-body">
+            <div class="fercho-summary-header">
+                <h3>Resumen de la cesta</h3>
+                <a href="{% url 'basket:summary' %}" class="fercho-edit-basket">Editar cesta</a>
+            </div>
+
+            {% for line in basket.all_lines %}
+                <div class="fercho-basket-item">
+                    {% with image=line.product.primary_image %}
+                        {% oscar_thumbnail image.original "100x100" crop="center" as thumb %}
+                        <img src="{{ thumb.url }}" alt="{{ line.product.get_title }}" class="fercho-basket-thumb">
+                    {% endwith %}
+                    <div class="fercho-basket-info">
+                        <div class="fercho-basket-title">{{ line.product.get_title }}</div>
+                        <div class="fercho-basket-meta">Cantidad: {{ line.quantity }}</div>
+                        <div class="fercho-basket-price">{{ line.line_price_incl_tax|currency:basket.currency }}</div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <div style="margin-top: 18px;">
+                <div class="fercho-totals-row">
+                    <span>Subtotal de artículos</span>
+                    <strong>{{ basket.total_incl_tax|currency:basket.currency }}</strong>
+                </div>
+                <div class="fercho-totals-row">
+                    <span>Entrega</span>
+                    <strong id="summaryDeliveryText" style="color: #4a453f;">Envío a domicilio</strong>
+                </div>
+                <div class="fercho-totals-final">
+                    <span>Total</span>
+                    <span>{{ basket.total_incl_tax|currency:basket.currency }}</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<script>
+let savedUserAddress = { line1: "", line2: "", line3: "", line4: "", state: "", postcode: "" };
+
+function setDeliveryMode(mode) {
+    const cardDelivery = document.getElementById("cardModeDelivery");
+    const cardPickup = document.getElementById("cardModePickup");
+    const pickupBanner = document.getElementById("pickupInfoBanner");
+    const homeFields = document.getElementById("homeDeliveryFields");
+    const savedSection = document.getElementById("savedAddressesSection");
+    const notesLabel = document.getElementById("notesLabel");
+    const notesInput = document.getElementById("id_notes");
+    const phoneHelp = document.getElementById("phoneHelpText");
+    const summaryDelivery = document.getElementById("summaryDeliveryText");
+
+    const fLine1 = document.getElementById("id_line1");
+    const fLine2 = document.getElementById("id_line2");
+    const fLine3 = document.getElementById("id_line3");
+    const fLine4 = document.getElementById("id_line4");
+    const fState = document.getElementById("id_state");
+    const fPostcode = document.getElementById("id_postcode");
+
+    if (mode === "pickup") {
+        cardPickup.classList.add("active");
+        cardDelivery.classList.remove("active");
+        pickupBanner.classList.add("visible");
+        homeFields.style.display = "none";
+        if (savedSection) savedSection.style.display = "none";
+
+        if (fLine1 && fLine1.value !== "RECOJO EN TIENDA - BARBERÍA FERCHO") {
+            savedUserAddress = {
+                line1: fLine1 ? fLine1.value : "",
+                line2: fLine2 ? fLine2.value : "",
+                line3: fLine3 ? fLine3.value : "",
+                line4: fLine4 ? fLine4.value : "",
+                state: fState ? fState.value : "",
+                postcode: fPostcode ? fPostcode.value : ""
+            };
+        }
+
+        if (fLine1) fLine1.value = "RECOJO EN TIENDA - BARBERÍA FERCHO";
+        if (fLine2) fLine2.value = "Local Principal Barbería Fercho";
+        if (fLine3) fLine3.value = "José Luis Bustamante y Rivero";
+        if (fLine4) fLine4.value = "Arequipa";
+        if (fState) fState.value = "Arequipa";
+        if (fPostcode) fPostcode.value = "04002";
+
+        notesLabel.textContent = "¿Cuándo pasarás a recogerlo o quién recoge? (Opcional)";
+        if (notesInput) notesInput.placeholder = "Ej: Paso hoy a las 5:00 pm / Recoge mi hermano...";
+        phoneHelp.textContent = "Te escribiremos por WhatsApp cuando tu pedido esté listo en la barbería.";
+        summaryDelivery.textContent = "Recojo en Barbería (GRATIS)";
+        summaryDelivery.style.color = "#2e6f40";
+    } else {
+        cardDelivery.classList.add("active");
+        cardPickup.classList.remove("active");
+        pickupBanner.classList.remove("visible");
+        homeFields.style.display = "block";
+        if (savedSection) savedSection.style.display = "block";
+
+        if (fLine1 && fLine1.value === "RECOJO EN TIENDA - BARBERÍA FERCHO") {
+            fLine1.value = savedUserAddress.line1;
+            if (fLine2) fLine2.value = savedUserAddress.line2;
+            if (fLine3) fLine3.value = savedUserAddress.line3;
+            if (fLine4) fLine4.value = savedUserAddress.line4;
+            if (fState) fState.value = savedUserAddress.state;
+            if (fPostcode) fPostcode.value = savedUserAddress.postcode;
+        }
+
+        notesLabel.textContent = "Referencia o instrucciones para el repartidor";
+        if (notesInput) notesInput.placeholder = "Ej: Frente al parque, tocar timbre 2...";
+        phoneHelp.textContent = "Ej: 987 654 321 (Para coordinar la entrega de tu pedido)";
+        summaryDelivery.textContent = "Envío a domicilio";
+        summaryDelivery.style.color = "#4a453f";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const placeholders = {
+        "id_first_name": "Ej: Andree",
+        "id_last_name": "Ej: Coyla",
+        "id_line1": "Ej: Av. Dolores 124",
+        "id_line2": "Ej: Urb. La Campiña / Dpto. 201",
+        "id_line3": "Ej: José Luis Bustamante y Rivero",
+        "id_line4": "Ej: Arequipa",
+        "id_state": "Ej: Arequipa",
+        "id_postcode": "Ej: 04002",
+        "id_phone_number": "Ej: +51 987 654 321",
+        "id_notes": "Ej: Frente al parque, tocar timbre 2..."
+    };
+    for (const [id, text] of Object.entries(placeholders)) {
+        const el = document.getElementById(id);
+        if (el && !el.placeholder) {
+            el.placeholder = text;
+        }
+    }
+    const notesEl = document.getElementById("id_notes");
+    if (notesEl) notesEl.rows = 2;
+
+    const fLine1 = document.getElementById("id_line1");
+    if (fLine1 && fLine1.value === "RECOJO EN TIENDA - BARBERÍA FERCHO") {
+        setDeliveryMode("pickup");
+    }
+});
+</script>
+{% endblock content %}

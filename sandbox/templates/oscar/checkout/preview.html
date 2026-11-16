@@ -1,0 +1,448 @@
+{% extends "oscar/checkout/layout.html" %}
+{% load i18n %}
+{% load currency_filters %}
+{% load image_tags %}
+
+{% block title %}
+    {% trans "Vista previa del pedido" %} | {{ block.super }}
+{% endblock %}
+
+{% block checkout_nav %}
+    {% include 'oscar/checkout/nav.html' with step=4 %}
+{% endblock %}
+
+{% block checkout_title %}{% endblock %}
+
+{% block content %}
+<style>
+    .fercho-preview-grid {
+        display: grid;
+        grid-template-columns: 1.55fr 1fr;
+        gap: 28px;
+        max-width: 1140px;
+        margin: 25px auto 50px auto;
+        padding: 0 15px;
+        align-items: start;
+    }
+    .fercho-preview-main {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+    .fercho-preview-title {
+        font-size: 1.55rem;
+        font-weight: 800;
+        color: #181614;
+        margin: 0 0 4px 0;
+        border-bottom: 2px solid #c59d5f;
+        padding-bottom: 10px;
+    }
+    .fercho-info-card {
+        background: #ffffff;
+        border: 1px solid #e8e5df;
+        border-radius: 14px;
+        padding: 20px 24px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    }
+    .fercho-info-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #f0ede6;
+        padding-bottom: 10px;
+        margin-bottom: 14px;
+    }
+    .fercho-info-card-header h3 {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #1c1a17;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .fercho-btn-edit {
+        font-size: 0.84rem;
+        font-weight: 700;
+        color: #9e732b;
+        background: #fdf8ef;
+        border: 1px solid #e3cfa8;
+        padding: 4px 12px;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+    .fercho-btn-edit:hover {
+        background: #c59d5f;
+        color: #161412;
+        text-decoration: none;
+    }
+    .fercho-detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        font-size: 0.92rem;
+        color: #3a3530;
+        line-height: 1.5;
+    }
+    .fercho-detail-label {
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: #8a8177;
+        letter-spacing: 0.4px;
+        margin-bottom: 4px;
+    }
+    .selected-pay-box {
+        background: #fdf9f2;
+        border: 1.5px solid #c59d5f;
+        border-radius: 10px;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .selected-pay-title {
+        font-weight: 800;
+        color: #181614;
+        font-size: 1rem;
+    }
+    .selected-pay-sub {
+        font-size: 0.84rem;
+        color: #5c554d;
+        margin-top: 2px;
+    }
+    .selected-pay-tag {
+        background: #1c1a17;
+        color: #f3d59b;
+        font-size: 0.76rem;
+        font-weight: 800;
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+    .fercho-order-box {
+        background: #f8f6f2;
+        border: 1px solid #e5ddd0;
+        border-radius: 16px;
+        padding: 24px;
+        position: sticky;
+        top: 20px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.05);
+    }
+    .fercho-order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid #c59d5f;
+        padding-bottom: 12px;
+        margin-bottom: 16px;
+    }
+    .fercho-order-header h3 {
+        font-size: 1.12rem;
+        font-weight: 800;
+        color: #181614;
+        margin: 0;
+    }
+    .fercho-preview-item {
+        display: flex;
+        gap: 12px;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+        border-bottom: 1px solid #e6dfd3;
+    }
+    .fercho-preview-thumb {
+        width: 56px;
+        height: 56px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #ffffff;
+        border: 1px solid #e0dcd3;
+        flex-shrink: 0;
+    }
+    .fercho-preview-item-info {
+        flex: 1;
+        min-width: 0;
+    }
+    .fercho-preview-item-name {
+        font-weight: 700;
+        font-size: 0.9rem;
+        color: #1c1a17;
+        line-height: 1.25;
+        margin-bottom: 3px;
+    }
+    .fercho-preview-item-qty {
+        font-size: 0.8rem;
+        color: #6e675f;
+    }
+    .fercho-preview-item-price {
+        font-weight: 800;
+        font-size: 0.94rem;
+        color: #181614;
+        white-space: nowrap;
+    }
+    .fercho-calc-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.93rem;
+        color: #4a453f;
+        margin-bottom: 8px;
+    }
+    .fercho-calc-total {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 1.28rem;
+        font-weight: 900;
+        color: #141210;
+        border-top: 2px solid #c59d5f;
+        padding-top: 14px;
+        margin-top: 12px;
+        margin-bottom: 18px;
+    }
+    .fercho-place-order-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #d4af6a 0%, #b5893e 100%);
+        color: #141210;
+        font-weight: 900;
+        font-size: 1.05rem;
+        padding: 17px 20px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        box-shadow: 0 8px 22px rgba(181, 137, 62, 0.38);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        letter-spacing: 0.3px;
+    }
+    .fercho-place-order-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 26px rgba(181, 137, 62, 0.5);
+    }
+    .fercho-back-link {
+        display: block;
+        text-align: center;
+        margin-top: 14px;
+        color: #6c665f;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 0.92rem;
+    }
+    .fercho-back-link:hover {
+        color: #181614;
+    }
+    .fercho-terms-note {
+        text-align: center;
+        font-size: 0.78rem;
+        color: #777;
+        margin-top: 10px;
+    }
+
+    @media (max-width: 900px) {
+        .fercho-preview-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 16px;
+            padding: 0 12px;
+        }
+        .fercho-detail-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+        .fercho-order-box {
+            position: static;
+            padding: 20px 16px;
+        }
+        .fercho-info-card {
+            padding: 18px 16px;
+        }
+    }
+</style>
+
+<div class="fercho-preview-grid">
+    <div class="fercho-preview-main">
+        <h2 class="fercho-preview-title">4. Revisa y confirma tu pedido</h2>
+
+        {% if shipping_address %}
+        <div class="fercho-info-card">
+            <div class="fercho-info-card-header">
+                <h3>
+                    {% if "RECOJO EN TIENDA" in shipping_address.line1 %}
+                        💈 Recojo en Barbería Fercho
+                    {% else %}
+                        🚚 Dirección de Envío
+                    {% endif %}
+                </h3>
+                <a href="{% url 'checkout:shipping-address' %}" class="fercho-btn-edit">Modificar</a>
+            </div>
+
+            <div class="fercho-detail-grid">
+                <div>
+                    <div class="fercho-detail-label">Cliente y Lugar</div>
+                    <strong>{{ shipping_address.first_name }} {{ shipping_address.last_name }}</strong><br>
+                    {% if "RECOJO EN TIENDA" in shipping_address.line1 %}
+                        <span style="color: #2e6f40; font-weight: 700;">Retiro presencial en local principal</span><br>
+                        José Luis Bustamante y Rivero, Arequipa
+                    {% else %}
+                        {% for field in shipping_address.active_address_fields %}
+                            {{ field }}<br>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div>
+                    <div class="fercho-detail-label">Contacto e Indicaciones</div>
+                    {% if shipping_address.phone_number %}
+                        📱 <strong>Tel/WhatsApp:</strong> {{ shipping_address.phone_number }}<br>
+                    {% endif %}
+                    {% if shipping_address.notes %}
+                        📝 <strong>Nota:</strong> {{ shipping_address.notes }}
+                    {% else %}
+                        <span style="color: #888;">Sin instrucciones adicionales</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="fercho-info-card">
+            <div class="fercho-info-card-header">
+                <h3>💳 Método de Pago</h3>
+                <a href="{% url 'checkout:payment-details' %}" class="fercho-btn-edit">Modificar</a>
+            </div>
+
+            <div class="selected-pay-box" id="previewPayBox" data-total="{{ order_total.incl_tax }}">
+                <div>
+                    <div class="selected-pay-title" id="previewPayTitle">Pago seleccionado</div>
+                    <div class="selected-pay-sub" id="previewPaySub">Verificando detalles del pago...</div>
+                </div>
+                <span class="selected-pay-tag" id="previewPayTag">Confirmado</span>
+            </div>
+        </div>
+
+        {% if shipping_method %}
+        <div class="fercho-info-card">
+            <div class="fercho-info-card-header">
+                <h3>📦 Modalidad de Entrega</h3>
+                <a href="{% url 'checkout:shipping-method' %}" class="fercho-btn-edit">Modificar</a>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;">
+                <span><strong>{{ shipping_method.name }}</strong></span>
+                <span style="font-weight: 800; color: #2e6f40;">
+                    {% if shipping_charge.incl_tax == 0 %}
+                        GRATIS (0,00 PEN)
+                    {% else %}
+                        {{ shipping_charge.incl_tax|currency:basket.currency }}
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <aside class="fercho-order-box">
+        <div class="fercho-order-header">
+            <h3>Resumen del Pedido</h3>
+            <a href="{% url 'basket:summary' %}" class="fercho-btn-edit">Editar cesta</a>
+        </div>
+
+        <div>
+            {% for line in basket.all_lines %}
+                <div class="fercho-preview-item">
+                    {% with image=line.product.primary_image %}
+                        {% oscar_thumbnail image.original "100x100" crop="center" as thumb %}
+                        <img src="{{ thumb.url }}" alt="{{ line.product.get_title }}" class="fercho-preview-thumb">
+                    {% endwith %}
+                    <div class="fercho-preview-item-info">
+                        <div class="fercho-preview-item-name">{{ line.product.get_title }}</div>
+                        <div class="fercho-preview-item-qty">Cantidad: {{ line.quantity }}</div>
+                    </div>
+                    <div class="fercho-preview-item-price">
+                        {{ line.line_price_incl_tax|currency:basket.currency }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 14px;">
+            <div class="fercho-calc-row">
+                <span>Subtotal productos</span>
+                <strong>{{ basket.total_incl_tax|currency:basket.currency }}</strong>
+            </div>
+            <div class="fercho-calc-row">
+                <span>Costo de envío</span>
+                <strong>
+                    {% if shipping_charge.incl_tax == 0 %}
+                        0,00 PEN
+                    {% else %}
+                        {{ shipping_charge.incl_tax|currency:basket.currency }}
+                    {% endif %}
+                </strong>
+            </div>
+
+            <div class="fercho-calc-total">
+                <span>Total a pagar</span>
+                <span>{{ order_total.incl_tax|currency:basket.currency }}</span>
+            </div>
+        </div>
+
+        <!-- Formulario conectado a Mercado Pago Checkout Pro (100% o 50% adelanto) -->
+        <form method="post" action="{% url 'mp_pagar' %}" id="place_order_form">
+            {% csrf_token %}
+            <input type="hidden" name="tipo_pago" id="mp-tipo-pago" value="total_100" />
+
+            <button id="place-order" type="submit" class="fercho-place-order-btn" data-loading-text="{% trans 'Redirigiendo a Mercado Pago...' %}">
+                Pagar ahora con Mercado Pago (Tarjeta o Yape) →
+            </button>
+        </form>
+
+        <a href="{% url 'checkout:payment-details' %}" class="fercho-back-link">
+            ← Volver a método de pago
+        </a>
+
+        <div class="fercho-terms-note">
+            🔒 Pago 100% seguro procesado por Mercado Pago.
+        </div>
+    </aside>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const metodo = params.get("metodo_pago") || localStorage.getItem("fercho_metodo_pago") || "yape_plin";
+
+    const box = document.getElementById("previewPayBox");
+    const title = document.getElementById("previewPayTitle");
+    const sub = document.getElementById("previewPaySub");
+    const tag = document.getElementById("previewPayTag");
+    const tipoPagoInput = document.getElementById("mp-tipo-pago");
+    const submitBtn = document.getElementById("place-order");
+
+    const rawTotal = box ? parseFloat(box.dataset.total.replace(",", ".")) : 0;
+    const half = !isNaN(rawTotal) ? (rawTotal / 2).toFixed(2).replace(".", ",") : "--";
+
+    if (metodo === "tarjeta") {
+        title.textContent = "💳 Tarjeta de Crédito o Débito";
+        sub.textContent = "Pago en línea con tarjeta (Visa / Mastercard)";
+        tag.textContent = "100% Online";
+        if (tipoPagoInput) tipoPagoInput.value = "total_100";
+    } else if (metodo === "barberia_50_adelanto" || metodo === "adelanto") {
+        title.textContent = "💈 Pago en Barbería (Reserva con 50% adelanto)";
+        sub.innerHTML = "Adelanto hoy: <strong>S/ " + half + "</strong> • Saldo al recoger en tienda: <strong>S/ " + half + "</strong>";
+        tag.textContent = "50% Adelanto";
+        if (tipoPagoInput) tipoPagoInput.value = "adelanto_50";
+        if (submitBtn) submitBtn.textContent = "Pagar 50% de adelanto (S/ " + half + ") →";
+    } else if (metodo === "transferencia") {
+        title.textContent = "🏦 Transferencia Bancaria (BCP / Interbank)";
+        sub.textContent = "Abono directo a cuenta corriente / CCI de Barbería Fercho";
+        tag.textContent = "Transferencia";
+        if (tipoPagoInput) tipoPagoInput.value = "total_100";
+    } else {
+        title.textContent = "📱 Yape o Plin";
+        sub.textContent = "Pago en línea con Yape o Plin vía Mercado Pago";
+        tag.textContent = "Yape / Plin";
+        if (tipoPagoInput) tipoPagoInput.value = "total_100";
+    }
+});
+</script>
+{% endblock content %}

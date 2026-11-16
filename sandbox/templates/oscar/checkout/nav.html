@@ -1,0 +1,167 @@
+{% load i18n %}
+
+<style>
+    .fercho-stepper-wrapper {
+        background: #1a1816;
+        border-top: 1px solid rgba(197, 157, 95, 0.25);
+        border-bottom: 2px solid #c59d5f;
+        padding: 18px 15px;
+        margin-bottom: 10px;
+    }
+    .fercho-stepper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 820px;
+        margin: 0 auto;
+        list-style: none;
+        padding: 0;
+        position: relative;
+        gap: 8px;
+    }
+    .fercho-step {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+    .fercho-step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 17px;
+        left: 55%;
+        width: 90%;
+        height: 2px;
+        background: #3a3530;
+        z-index: -1;
+        transition: background 0.3s ease;
+    }
+    .fercho-step.completed:not(:last-child)::after {
+        background: #c59d5f;
+    }
+    .fercho-step-circle {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #2b2723;
+        border: 2px solid #4a433c;
+        color: #9e958c;
+        font-weight: 800;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+        transition: all 0.3s ease;
+    }
+    .fercho-step.active .fercho-step-circle {
+        background: linear-gradient(135deg, #d4af6a 0%, #b5893e 100%);
+        border-color: #f3d59b;
+        color: #141210;
+        box-shadow: 0 0 14px rgba(197, 157, 95, 0.65);
+        transform: scale(1.08);
+    }
+    .fercho-step.active .fercho-step-label {
+        color: #f3d59b;
+        font-weight: 700;
+    }
+    .fercho-step.completed .fercho-step-circle {
+        background: #2e6f40;
+        border-color: #4caf50;
+        color: #ffffff;
+    }
+    .fercho-step.completed .fercho-step-label a {
+        color: #d4af6a;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    .fercho-step.completed .fercho-step-label a:hover {
+        text-decoration: underline;
+    }
+    .fercho-step-label {
+        font-size: 0.82rem;
+        color: #8c837a;
+        letter-spacing: 0.2px;
+        line-height: 1.2;
+    }
+
+    @media (max-width: 600px) {
+        .fercho-step-label {
+            font-size: 0.7rem;
+        }
+        .fercho-step-circle {
+            width: 28px;
+            height: 28px;
+            font-size: 0.8rem;
+        }
+        .fercho-step:not(:last-child)::after {
+            top: 14px;
+        }
+    }
+</style>
+
+<div class="fercho-stepper-wrapper">
+    <ul class="fercho-stepper">
+        <li class="fercho-step {% if step == 1 %}active{% elif step > 1 %}completed{% endif %}">
+            <div class="fercho-step-circle">
+                {% if step > 1 %}✓{% else %}1{% endif %}
+            </div>
+            <div class="fercho-step-label">
+                {% if step > 1 %}
+                    <a href="{% url 'checkout:shipping-address' %}">{% trans "Dirección de envío" %}</a>
+                {% else %}
+                    {% trans "Dirección de envío" %}
+                {% endif %}
+            </div>
+        </li>
+
+        <li class="fercho-step {% if step == 2 %}active{% elif step > 2 %}completed{% endif %}">
+            <div class="fercho-step-circle">
+                {% if step > 2 %}✓{% else %}2{% endif %}
+            </div>
+            <div class="fercho-step-label">
+                {% if step > 2 %}
+                    <a href="{% url 'checkout:shipping-method' %}">{% trans "Método de envío" %}</a>
+                {% else %}
+                    {% trans "Método de envío" %}
+                {% endif %}
+            </div>
+        </li>
+
+        <li class="fercho-step {% if step == 3 %}active{% elif step > 3 %}completed{% endif %}">
+            <div class="fercho-step-circle">
+                {% if step > 3 %}✓{% else %}3{% endif %}
+            </div>
+            <div class="fercho-step-label">
+                {% if step > 3 %}
+                    <a href="{% url 'checkout:payment-details' %}">{% trans "Pago" %}</a>
+                {% else %}
+                    {% trans "Pago" %}
+                {% endif %}
+            </div>
+        </li>
+
+        <li class="fercho-step {% if step == 4 %}active{% elif step > 4 %}completed{% endif %}">
+            <div class="fercho-step-circle">
+                {% if step > 4 %}✓{% else %}4{% endif %}
+            </div>
+            <div class="fercho-step-label">
+                {% if step > 4 %}
+                    <a href="{% url 'checkout:preview' %}">{% trans "Vista previa" %}</a>
+                {% else %}
+                    {% trans "Vista previa" %}
+                {% endif %}
+            </div>
+        </li>
+
+        <li class="fercho-step {% if step == 5 %}active{% endif %}">
+            <div class="fercho-step-circle">5</div>
+            <div class="fercho-step-label">
+                {% trans "Confirmación" %}
+            </div>
+        </li>
+    </ul>
+</div>
