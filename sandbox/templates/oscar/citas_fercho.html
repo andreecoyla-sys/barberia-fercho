@@ -10,7 +10,25 @@
         html, body {
             max-width: 100%;
             overflow-x: hidden;
-            background: #fafafa;
+            background-color: #e6dfd3 !important;
+            background-image: 
+                radial-gradient(circle at 12% 15%, rgba(197, 157, 95, 0.28) 0%, transparent 48%),
+                radial-gradient(circle at 88% 85%, rgba(18, 18, 18, 0.16) 0%, transparent 52%),
+                repeating-linear-gradient(
+                    -45deg,
+                    rgba(18, 18, 18, 0.045) 0px,
+                    rgba(18, 18, 18, 0.045) 3px,
+                    transparent 3px,
+                    transparent 12px
+                ),
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(197, 157, 95, 0.14) 0px,
+                    rgba(197, 157, 95, 0.14) 2px,
+                    transparent 2px,
+                    transparent 16px
+                ) !important;
+            background-attachment: fixed !important;
             color: #121212;
             font-family: 'Inter', sans-serif;
         }
@@ -56,13 +74,18 @@
             background-color: #1ebe5d;
             color: #fff !important;
         }
-        .card-corte {
-            border: 1px solid #ececec;
+        .card-corte, #seccion-reserva .card {
+            border: 1px solid #d5cbb8 !important;
             border-radius: 16px;
-            background: #fff;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: #ffffff !important;
+            box-shadow: 0 8px 22px rgba(18, 18, 18, 0.09) !important;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
         }
-        .card-corte:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); }
+        .card-corte:hover {
+            transform: translateY(-4px);
+            border-color: #c59d5f !important;
+            box-shadow: 0 12px 28px rgba(197, 157, 95, 0.28) !important;
+        }
 
         .badge-horario {
             background: #121212;
@@ -151,15 +174,15 @@
     </nav>
 
     <div class="container my-4 my-md-5">
-        <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 pb-3 border-bottom">
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 pb-3 border-bottom" style="border-color: #cfc4b0 !important;">
             <div>
                 <span class="badge badge-horario px-3 py-2 mb-2">
                     LUN – SÁB · 10:00 AM A 10:00 PM (REFRIGERIO 1:00 PM – 2:00 PM)
                 </span>
                 <h1 class="hero-title mb-1" style="font-weight:700; letter-spacing:-0.8px;">Elige tu Corte y Reserva Cita</h1>
-                <p class="text-muted mb-0 small">Para garantizar tu turno de 1 hora, la reserva requiere el <strong>adelanto del 50%</strong> (15 min de tolerancia).</p>
+                <p class="text-dark mb-0 small" style="opacity: 0.82;">Para garantizar tu turno de 1 hora, la reserva requiere el <strong>adelanto del 50%</strong> (15 min de tolerancia).</p>
             </div>
-            <a href="/es/catalogue/" class="btn btn-outline-dark btn-sm mt-3 mt-md-0 px-3 py-2" style="border-radius:50px; font-weight:600;">
+            <a href="/es/catalogue/" class="btn btn-outline-dark btn-sm mt-3 mt-md-0 px-3 py-2" style="border-radius:50px; font-weight:600; background: #ffffff;">
                 Ir a Tienda de Productos →
             </a>
         </div>
@@ -317,8 +340,8 @@
     </div>
 
     <script>
-        const CORTES_PRECIOS = {{ cortes_json|safe }};
-        const CITAS_OCUPADAS = {{ citas_json|safe }};
+        const CORTES_PRECIOS = JSON.parse('{{ cortes_json|escapejs }}');
+        const CITAS_OCUPADAS = JSON.parse('{{ citas_json|escapejs }}');
 
         function seleccionarCorte(nombre) {
             const select = document.getElementById('select-servicio');

@@ -10,7 +10,25 @@
         html, body {
             max-width: 100%;
             overflow-x: hidden;
-            background: #f4f5f7;
+            background-color: #e6dfd3 !important;
+            background-image: 
+                radial-gradient(circle at 12% 15%, rgba(197, 157, 95, 0.28) 0%, transparent 48%),
+                radial-gradient(circle at 88% 85%, rgba(18, 18, 18, 0.16) 0%, transparent 52%),
+                repeating-linear-gradient(
+                    -45deg,
+                    rgba(18, 18, 18, 0.045) 0px,
+                    rgba(18, 18, 18, 0.045) 3px,
+                    transparent 3px,
+                    transparent 12px
+                ),
+                repeating-linear-gradient(
+                    45deg,
+                    rgba(197, 157, 95, 0.14) 0px,
+                    rgba(197, 157, 95, 0.14) 2px,
+                    transparent 2px,
+                    transparent 16px
+                ) !important;
+            background-attachment: fixed !important;
             color: #121212;
             font-family: 'Inter', sans-serif;
         }
@@ -27,24 +45,28 @@
         }
         .stat-card {
             border-radius: 14px;
-            border: none;
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            border: 1px solid #d5cbb8 !important;
+            background: #ffffff !important;
+            box-shadow: 0 8px 22px rgba(18, 18, 18, 0.09) !important;
+        }
+        .card {
+            border: 1px solid #d5cbb8 !important;
+            box-shadow: 0 8px 22px rgba(18, 18, 18, 0.09) !important;
         }
         .cita-mobile-card, .stock-mobile-card {
-            background: #fff;
+            background: #ffffff !important;
             border-radius: 14px;
-            border: 1px solid #e6e6e6;
+            border: 1px solid #d5cbb8 !important;
             padding: 16px;
             margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            box-shadow: 0 8px 22px rgba(18, 18, 18, 0.09) !important;
         }
         .cita-mobile-card.liberada {
-            background: #f9f9f9;
-            opacity: 0.75;
+            background: #f5f2ec !important;
+            opacity: 0.78;
         }
         .stock-mobile-card.bajo-stock {
-            border-left: 5px solid #dc3545;
+            border-left: 5px solid #dc3545 !important;
         }
         .btn-whatsapp {
             background-color: #25D366;
@@ -112,14 +134,14 @@
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 mb-md-4">
             <div>
                 <h2 class="font-weight-bold mb-1 section-title">Agenda de Cortes</h2>
-                <p class="text-muted small mb-0">Tolerancia máxima: <strong>15 minutos</strong>. Inicia el corte cuando llegue el cliente.</p>
+                <p class="text-dark small mb-0" style="opacity: 0.82;">Tolerancia máxima: <strong>15 minutos</strong>. Inicia el corte cuando llegue el cliente.</p>
             </div>
 
             <form method="get" class="d-flex flex-wrap align-items-center mt-3 mt-md-0 w-100 w-md-auto" style="max-width: 380px;">
                 <input type="date" name="fecha" value="{{ fecha_filtro }}" class="form-control mr-2 mb-2 mb-sm-0" style="border-radius:8px; flex:1;">
                 <button type="submit" class="btn btn-dark mr-1" style="border-radius:8px;">Filtrar</button>
                 {% if fecha_filtro %}
-                    <a href="/panel-barbero/" class="btn btn-outline-secondary" style="border-radius:8px;">Todos</a>
+                    <a href="/panel-barbero/" class="btn btn-outline-secondary bg-white" style="border-radius:8px;">Todos</a>
                 {% endif %}
             </form>
         </div>
@@ -133,13 +155,13 @@
                 </div>
             </div>
             <div class="col-6 col-md-4 mb-2 mb-md-3">
-                <div class="card stat-card p-3 p-md-4" style="border-left: 4px solid #28a745;">
+                <div class="card stat-card p-3 p-md-4" style="border-left: 4px solid #28a745 !important;">
                     <small class="text-uppercase text-muted font-weight-bold" style="font-size:0.72rem;">Adelantos (50%)</small>
                     <h2 class="font-weight-bold text-success mb-0 mt-1 stat-number">S/ {{ total_adelantos }}</h2>
                 </div>
             </div>
             <div class="col-6 col-md-4 mb-2 mb-md-3">
-                <div class="card stat-card p-3 p-md-4" style="border-left: 4px solid #c59d5f;">
+                <div class="card stat-card p-3 p-md-4" style="border-left: 4px solid #c59d5f !important;">
                     <small class="text-uppercase text-muted font-weight-bold" style="font-size:0.72rem;">Por Cobrar Hoy</small>
                     <h2 class="font-weight-bold mb-0 mt-1 stat-number" style="color:#a37d3e;">S/ {{ total_por_cobrar }}</h2>
                 </div>
@@ -310,11 +332,11 @@
         </div>
 
         <!-- BLOQUE 2: INVENTARIO ÁGIL CON FOTOS -->
-        <div id="inventario" class="pt-4 border-top">
+        <div id="inventario" class="pt-4 border-top" style="border-color: #cfc4b0 !important;">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
                 <div>
                     <h2 class="font-weight-bold mb-1 section-title">🧴 Control Rápido de Inventario</h2>
-                    <p class="text-muted small mb-0">Agrega productos con su foto, busca por nombre o ajusta unidades en un toque.</p>
+                    <p class="text-dark small mb-0" style="opacity: 0.82;">Agrega productos con su foto, busca por nombre o ajusta unidades en un toque.</p>
                 </div>
             </div>
 
