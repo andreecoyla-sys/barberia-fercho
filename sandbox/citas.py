@@ -25,6 +25,7 @@ CORTES_PRECIOS = {
     "Corte Infantil (Hasta 12 años)": Decimal("20.00"),
 }
 
+
 def aplicar_tolerancia_15_min():
     ahora = datetime.now()
     for cita in Cita.objects.filter(estado="50% Pagado"):
@@ -35,6 +36,7 @@ def aplicar_tolerancia_15_min():
                 cita.save(update_fields=["estado"])
         except ValueError:
             continue
+
 
 def vista_reservar_cita(request):
     aplicar_tolerancia_15_min()
@@ -135,16 +137,30 @@ def vista_reservar_cita(request):
         "error": error,
     })
 
+
 @staff_member_required(login_url="/es/dashboard/login/")
 def vista_panel_barbero(request):
     aplicar_tolerancia_15_min()
 
+    # Obtener categorías únicas (sin duplicados de subárboles ni servicios de corte)
+    categorias_limpias = []
+    nombres_cat_vistos = set()
+    for cat in Category.objects.order_by("depth", "name"):
+        nombre_norm = cat.name.strip().lower()
+        if nombre_norm in ("productos", "servicios de cortes"):
+            continue
+        if nombre_norm not in nombres_cat_vistos:
+            nombres_cat_vistos.add(nombre_norm)
+            categorias_limpias.append(cat)
+
     if request.method == "POST":
         accion = request.POST.get("accion")
 
-        # Crear producto en 1 paso (nombre, precio, cantidad y foto opcional)
+        # Crear producto con Nombre, UPC, Categoría, Precio, Stock y Foto opcional
         if accion == "crear_producto":
             titulo = request.POST.get("titulo", "").strip()
+            upc_input = request.POST.get("upc", "").strip().upper()
+            categoria_id = request.POST.get("categoria", "").strip()
             precio_str = request.POST.get("precio", "0").strip()
             stock_str = request.POST.get("stock", "0").strip()
             foto = request.FILES.get("foto")
@@ -157,8 +173,16 @@ def vista_panel_barbero(request):
                         defaults={"requires_shipping": True, "track_stock": True}
                     )
                     partner, _ = Partner.objects.get_or_create(name="Barbería Fercho")
-                    categoria = Category.objects.first()
-                    sku = f"FER-{uuid.uuid4().hex[:6].upper()}"
+
+                    categoria = None
+                    if categoria_id:
+                        categoria = Category.objects.filter(id=categoria_id).first()
+                    if not categoria and categorias_limpias:
+                        categoria = categorias_limpias[0]
+
+                    sku = upc_input if upc_input else f"FER-{uuid.uuid4().hex[:6].upper()}"
+                    if Product.objects.filter(upc=sku).exists():
+                        sku = f"{sku}-{uuid.uuid4().hex[:3].upper()}"
 
                     prod = Product.objects.create(
                         title=titulo,
@@ -270,7 +294,9 @@ def vista_panel_barbero(request):
     # Mostrar TODOS los productos de la tienda sin duplicados
     productos_stock = []
     vistos = set()
-    for sr in StockRecord.objects.select_related("product").prefetch_related("product__images").exclude(
+    for sr in StockRecord.objects.select_related("product").prefetch_related(
+        "product__images", "product__categories"
+    ).exclude(
         product__product_class__name="Servicio de Corte"
     ).order_by("product__title"):
         if sr.product_id not in vistos:
@@ -284,4 +310,5 @@ def vista_panel_barbero(request):
         "total_por_cobrar": f"{total_por_cobrar:.2f}",
         "total_citas": activas.count(),
         "productos_stock": productos_stock,
+        "categorias": categorias_limpias,
     })
