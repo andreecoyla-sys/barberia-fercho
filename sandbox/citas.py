@@ -17,13 +17,70 @@ HORARIOS_TARDE = [
 ]
 HORARIOS_DISPONIBLES = HORARIOS_MANANA + HORARIOS_TARDE
 
-CORTES_PRECIOS = {
+CORTES_PRECIOS_DEFAULT = {
     "Corte Clásico a Tijera y Máquina": Decimal("25.00"),
     "Degradado / Fade (Low, Mid o High)": Decimal("30.00"),
     "Mullet / Taper Fade Moderno": Decimal("32.00"),
     "Corte + Perfilado de Barba con Toalla Caliente": Decimal("45.00"),
     "Corte Infantil (Hasta 12 años)": Decimal("20.00"),
 }
+
+
+def obtener_cortes_activos():
+    """
+    Lee los servicios de corte guardados en BD (ProductClass='Servicio de Corte').
+    Si aún no hay ninguno, inicializa automáticamente tus 5 cortes existentes para que sean editables.
+    """
+    clase_corte, _ = ProductClass.objects.get_or_create(
+        name="Servicio de Corte",
+        defaults={"requires_shipping": False, "track_stock": False}
+    )
+    partner, _ = Partner.objects.get_or_create(name="Barbería Fercho")
+
+    registros = StockRecord.objects.select_related("product").filter(
+        product__product_class=clase_corte
+    ).order_by("id")
+
+    if not registros.exists():
+        for nombre, precio in CORTES_PRECIOS_DEFAULT.items():
+            sku = f"CORTE-{uuid.uuid4().hex[:6].upper()}"
+            prod = Product.objects.create(
+                title=nombre,
+                upc=sku,
+                product_class=clase_corte,
+                structure=Product.STANDALONE,
+                is_public=False,
+            )
+            StockRecord.objects.create(
+                product=prod,
+                partner=partner,
+                partner_sku=sku,
+                price_currency="PEN",
+                price=precio,
+                num_in_stock=999,
+            )
+        registros = StockRecord.objects.select_related("product").filter(
+            product__product_class=clase_corte
+        ).order_by("id")
+
+    cortes_dict = {}
+    cortes_lista = []
+    vistos = set()
+    for sr in registros:
+        if sr.product_id in vistos:
+            continue
+        vistos.add(sr.product_id)
+        nombre = sr.product.title
+        precio = sr.price or Decimal("0.00")
+        cortes_dict[nombre] = precio
+        cortes_lista.append({
+            "id": sr.id,
+            "nombre": nombre,
+            "precio": f"{precio:.2f}",
+            "adelanto": f"{(precio / Decimal('2')):.2f}",
+        })
+
+    return cortes_dict, cortes_lista
 
 
 def aplicar_tolerancia_15_min():
@@ -40,17 +97,9 @@ def aplicar_tolerancia_15_min():
 
 def vista_reservar_cita(request):
     aplicar_tolerancia_15_min()
+    cortes_dict, cortes_info = obtener_cortes_activos()
     mensaje = None
     error = None
-
-    cortes_info = [
-        {
-            "nombre": nombre,
-            "precio": f"{precio:.2f}",
-            "adelanto": f"{(precio / Decimal('2')):.2f}",
-        }
-        for nombre, precio in CORTES_PRECIOS.items()
-    ]
 
     if request.method == "POST":
         nombre = request.POST.get("nombre", "").strip()
@@ -72,7 +121,7 @@ def vista_reservar_cita(request):
             error = "Por favor completa todos los campos y selecciona una hora."
         elif not re.match(r"^9\d{8}$", telefono):
             error = "Ingresa un número de celular válido de 9 dígitos (ejemplo: 987654321)."
-        elif servicio not in CORTES_PRECIOS:
+        elif servicio not in cortes_dict:
             error = "El servicio seleccionado no es válido."
         elif fecha_obj < ahora.date():
             error = "No puedes reservar una cita en una fecha pasada."
@@ -96,7 +145,7 @@ def vista_reservar_cita(request):
                     if ocupado:
                         error = f"El turno de las {hora} el {fecha_str} ya fue reservado. Elige otra hora."
                     else:
-                        precio_total = CORTES_PRECIOS[servicio]
+                        precio_total = cortes_dict[servicio]
                         adelanto = precio_total / Decimal("2")
                         saldo = precio_total - adelanto
 
@@ -129,7 +178,7 @@ def vista_reservar_cita(request):
         "horarios_manana": HORARIOS_MANANA,
         "horarios_tarde": HORARIOS_TARDE,
         "cortes": cortes_info,
-        "cortes_json": json.dumps({k: float(v) for k, v in CORTES_PRECIOS.items()}),
+        "cortes_json": json.dumps({k: float(v) for k, v in cortes_dict.items()}),
         "citas": citas_ocupadas[:8],
         "citas_json": citas_publicas_json,
         "hoy_iso": date.today().strftime("%Y-%m-%d"),
@@ -141,6 +190,7 @@ def vista_reservar_cita(request):
 @staff_member_required(login_url="/es/dashboard/login/")
 def vista_panel_barbero(request):
     aplicar_tolerancia_15_min()
+    _, cortes_lista = obtener_cortes_activos()
 
     # Obtener categorías únicas (sin duplicados de subárboles ni servicios de corte)
     categorias_limpias = []
@@ -156,8 +206,75 @@ def vista_panel_barbero(request):
     if request.method == "POST":
         accion = request.POST.get("accion")
 
+        # Crear servicio de corte nuevo desde el panel
+        if accion == "crear_corte":
+            nombre_corte = request.POST.get("nombre_corte", "").strip()
+            precio_corte_str = request.POST.get("precio_corte", "0").strip()
+            try:
+                precio_corte = Decimal(precio_corte_str)
+                if nombre_corte and precio_corte > 0:
+                    clase_corte, _ = ProductClass.objects.get_or_create(
+                        name="Servicio de Corte",
+                        defaults={"requires_shipping": False, "track_stock": False}
+                    )
+                    partner, _ = Partner.objects.get_or_create(name="Barbería Fercho")
+                    sku = f"CORTE-{uuid.uuid4().hex[:6].upper()}"
+                    prod = Product.objects.create(
+                        title=nombre_corte,
+                        upc=sku,
+                        product_class=clase_corte,
+                        structure=Product.STANDALONE,
+                        is_public=False,
+                    )
+                    StockRecord.objects.create(
+                        product=prod,
+                        partner=partner,
+                        partner_sku=sku,
+                        price_currency="PEN",
+                        price=precio_corte,
+                        num_in_stock=999,
+                    )
+            except Exception:
+                pass
+            return redirect("/panel-barbero/#servicios-corte")
+
+        # Editar nombre y precio de un corte existente
+        elif accion == "editar_corte":
+            corte_id = request.POST.get("corte_id")
+            nuevo_nombre = request.POST.get("nuevo_nombre", "").strip()
+            nuevo_precio_str = request.POST.get("nuevo_precio", "0").strip()
+            registro = StockRecord.objects.select_related("product").filter(
+                id=corte_id,
+                product__product_class__name="Servicio de Corte"
+            ).first()
+            if registro:
+                try:
+                    nuevo_precio = Decimal(nuevo_precio_str)
+                    if nuevo_nombre and nuevo_precio > 0:
+                        registro.product.title = nuevo_nombre
+                        registro.product.save(update_fields=["title"])
+                        registro.price = nuevo_precio
+                        registro.save(update_fields=["price"])
+                except Exception:
+                    pass
+            return redirect("/panel-barbero/#servicios-corte")
+
+        # Eliminar un servicio de corte
+        elif accion == "eliminar_corte":
+            corte_id = request.POST.get("corte_id")
+            registro = StockRecord.objects.filter(
+                id=corte_id,
+                product__product_class__name="Servicio de Corte"
+            ).first()
+            if registro:
+                prod = registro.product
+                registro.delete()
+                if not prod.stockrecords.exists():
+                    prod.delete()
+            return redirect("/panel-barbero/#servicios-corte")
+
         # Crear producto con Nombre, UPC, Categoría, Precio, Stock y Foto opcional
-        if accion == "crear_producto":
+        elif accion == "crear_producto":
             titulo = request.POST.get("titulo", "").strip()
             upc_input = request.POST.get("upc", "").strip().upper()
             categoria_id = request.POST.get("categoria", "").strip()
@@ -311,4 +428,5 @@ def vista_panel_barbero(request):
         "total_citas": activas.count(),
         "productos_stock": productos_stock,
         "categorias": categorias_limpias,
+        "cortes_lista": cortes_lista,
     })
