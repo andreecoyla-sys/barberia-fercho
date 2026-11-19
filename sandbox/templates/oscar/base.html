@@ -157,6 +157,13 @@
             text-decoration: none !important;
         }
 
+        /* Desactivar clic y cursor de enlace en la imagen y título de las tarjetas de producto */
+        .fercho-grid-item article.product_pod .image_container a,
+        .fercho-grid-item article.product_pod h3 a {
+            pointer-events: none !important;
+            cursor: default !important;
+        }
+
         /* Precio y disponibilidad */
         .fercho-grid-item article.product_pod .product_price {
             margin-top: auto !important;
