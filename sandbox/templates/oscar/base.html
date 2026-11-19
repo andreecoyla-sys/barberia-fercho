@@ -4,18 +4,25 @@
     {{ block.super }}
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Fondo elegante con textura sutil tipo barbería y profundidad */
+        /* Fondo pronunciado tipo barbería con textura marcada, luz dorada y viñeta carbón */
         body {
-            background-color: #f3f1ec !important;
+            background-color: #e6dfd3 !important;
             background-image: 
-                radial-gradient(circle at 12% 18%, rgba(197, 157, 95, 0.11) 0%, transparent 45%),
-                radial-gradient(circle at 88% 82%, rgba(18, 18, 18, 0.07) 0%, transparent 45%),
+                radial-gradient(circle at 12% 15%, rgba(197, 157, 95, 0.28) 0%, transparent 48%),
+                radial-gradient(circle at 88% 85%, rgba(18, 18, 18, 0.16) 0%, transparent 52%),
+                repeating-linear-gradient(
+                    -45deg,
+                    rgba(18, 18, 18, 0.045) 0px,
+                    rgba(18, 18, 18, 0.045) 3px,
+                    transparent 3px,
+                    transparent 12px
+                ),
                 repeating-linear-gradient(
                     45deg,
-                    rgba(197, 157, 95, 0.035) 0px,
-                    rgba(197, 157, 95, 0.035) 2px,
+                    rgba(197, 157, 95, 0.14) 0px,
+                    rgba(197, 157, 95, 0.14) 2px,
                     transparent 2px,
-                    transparent 14px
+                    transparent 16px
                 ) !important;
             background-attachment: fixed !important;
             color: #121212 !important;
@@ -36,12 +43,30 @@
             color: #e5e5e5 !important;
         }
 
-        /* Panel lateral de categorías y migas de pan estilizados */
-        .side_categories, .breadcrumb {
+        /* Paneles blancos con mayor contraste y sombra profunda sobre el fondo */
+        .side_categories, .breadcrumb, .well, .basket_summary, .checkout-step, .sub-header, .tab-content, .product_main, #product_gallery {
             background: #ffffff !important;
-            border: 1px solid #e5dfd3 !important;
+            border: 1px solid #d5cbb8 !important;
             border-radius: 12px !important;
-            box-shadow: 0 4px 14px rgba(18, 18, 18, 0.04) !important;
+            box-shadow: 0 8px 22px rgba(18, 18, 18, 0.09) !important;
+        }
+        .product_main, .well, .basket_summary, .tab-content {
+            padding: 18px !important;
+        }
+
+        /* Botones primarios globales (Carrito, Checkout, Guardar, Detalle de producto) */
+        .btn-primary {
+            background: #121212 !important;
+            border: 1px solid #121212 !important;
+            color: #c59d5f !important;
+            font-weight: 600 !important;
+            border-radius: 8px !important;
+            transition: all 0.2s ease !important;
+        }
+        .btn-primary:hover {
+            background: #c59d5f !important;
+            border-color: #c59d5f !important;
+            color: #121212 !important;
         }
 
         /* Grilla exacta: 2 columnas en celular, 3 en computadora, cero huecos */
@@ -63,14 +88,14 @@
             min-width: 0 !important;
         }
 
-        /* Tarjeta minimalista con mayor relieve sobre el nuevo fondo */
+        /* Tarjeta minimalista con mayor relieve sobre el fondo pronunciado */
         .fercho-grid-item article.product_pod {
             background: #ffffff !important;
-            border: 1px solid #e5dfd3 !important;
+            border: 1px solid #d5cbb8 !important;
             border-radius: 14px !important;
             padding: 10px !important;
             margin: 0 !important;
-            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.06) !important;
+            box-shadow: 0 8px 22px rgba(18, 18, 18, 0.09) !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: space-between !important;
@@ -81,7 +106,7 @@
         .fercho-grid-item article.product_pod:hover {
             transform: translateY(-4px) !important;
             border-color: #c59d5f !important;
-            box-shadow: 0 10px 24px rgba(197, 157, 95, 0.2) !important;
+            box-shadow: 0 12px 28px rgba(197, 157, 95, 0.28) !important;
         }
 
         /* Foto grande protagonista con línea dorada inferior */
@@ -151,20 +176,9 @@
 
         /* Botón limpio de ancho completo con efecto hover dorado */
         .fercho-grid-item article.product_pod .btn-primary {
-            background: #121212 !important;
-            border: 1px solid #121212 !important;
-            color: #c59d5f !important;
             font-size: 0.78rem !important;
-            font-weight: 600 !important;
-            border-radius: 8px !important;
             padding: 8px 6px !important;
             width: 100% !important;
-            transition: all 0.2s ease !important;
-        }
-        .fercho-grid-item article.product_pod .btn-primary:hover {
-            background: #c59d5f !important;
-            border-color: #c59d5f !important;
-            color: #121212 !important;
         }
     </style>
 {% endblock %}
